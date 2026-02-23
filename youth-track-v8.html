@@ -1,0 +1,2064 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<title>Youth-Track v8</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════
+   THEME — dark default, light mode override
+══════════════════════════════════════════════════ */
+:root{
+  --bg:#05080d;--s0:#0a1220;--s1:#0f1a2e;--s2:#152438;--s3:#1c3048;
+  --b0:#1a2c42;--b1:#233a54;--b2:#2c4866;
+  --g:#00dfa8;--gd:rgba(0,223,168,.11);--gd2:rgba(0,223,168,.2);
+  --r:#ff3355;--rd:rgba(255,51,85,.10);--rd2:rgba(255,51,85,.2);
+  --y:#ffb020;--yd:rgba(255,176,32,.11);--yd2:rgba(255,176,32,.2);
+  --b:#4d8fff;--bd:rgba(77,143,255,.11);--bd2:rgba(77,143,255,.2);
+  --p:#9966ff;--pd:rgba(153,102,255,.11);--pd2:rgba(153,102,255,.2);
+  --o:#ff7a30;--od:rgba(255,122,48,.11);--od2:rgba(255,122,48,.2);
+  --t:#c5ddf0;--tm:#607d96;--td:#2c4055;
+  --mono:'JetBrains Mono',monospace;--sans:'Heebo',sans-serif;
+  --R:14px;--R2:10px;--R3:7px;
+  --card-shadow:none;
+}
+[data-theme="light"]{
+  --bg:#e8edf3;--s0:#ffffff;--s1:#f2f6fb;--s2:#e0e8f2;--s3:#d0dcea;
+  --b0:#c0cedd;--b1:#8aa8c8;--b2:#6888aa;
+  --g:#006848;--gd:rgba(0,104,72,.10);--gd2:rgba(0,104,72,.22);
+  --r:#b80018;--rd:rgba(184,0,24,.09);--rd2:rgba(184,0,24,.18);
+  --y:#8a5600;--yd:rgba(138,86,0,.10);--yd2:rgba(138,86,0,.22);
+  --b:#0e44bb;--bd:rgba(14,68,187,.10);--bd2:rgba(14,68,187,.22);
+  --p:#5522bb;--pd:rgba(85,34,187,.10);--pd2:rgba(85,34,187,.22);
+  --o:#a03400;--od:rgba(160,52,0,.10);--od2:rgba(160,52,0,.22);
+  --t:#060e1a;--tm:#2a4060;--td:#5070a0;
+  --card-shadow:0 1px 4px rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.06);
+}
+[data-theme="light"] .sidebar,[data-theme="light"] .trip-card,
+[data-theme="light"] .fence-card,[data-theme="light"] .role-card,
+[data-theme="light"] .modal,[data-theme="light"] .confirm-box,
+[data-theme="light"] .gr,[data-theme="light"] .pending-row{
+  box-shadow:var(--card-shadow);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{
+  height:100dvh;overflow:hidden;
+  font-family:var(--sans);background:var(--bg);color:var(--t);
+  -webkit-font-smoothing:antialiased;
+}
+button{font-family:var(--sans);cursor:pointer;border:none;background:none}
+/* Prevent iOS zoom on input focus */
+input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!important}
+.isel{font-size:max(14px,.59rem)!important}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--b1);border-radius:2px}
+
+/* ── SCREENS ── */
+.screen{display:none;width:100%;height:100dvh;flex-direction:column}
+.screen.active{display:flex}
+#screen-landing{align-items:center;justify-content:center;padding:2rem;
+  background:radial-gradient(ellipse 60% 50% at 8% 92%,rgba(0,223,168,.05),transparent 55%),
+             radial-gradient(ellipse 50% 40% at 92% 8%,rgba(77,143,255,.05),transparent 55%),var(--bg)}
+#screen-pin{align-items:center;justify-content:center}
+#screen-admin{flex-direction:row}
+
+/* ── BADGE ── */
+.badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:99px;
+  font-size:.55rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border:1px solid transparent}
+.badge.on  {background:var(--gd);color:var(--g);border-color:var(--gd2)}
+.badge.off {background:rgba(44,64,85,.15);color:var(--td);border-color:rgba(44,64,85,.2)}
+.badge.sos {background:var(--rd);color:var(--r);border-color:var(--rd2)}
+.badge.adm {background:var(--bd);color:var(--b);border-color:var(--bd2)}
+.badge.crd {background:var(--pd);color:var(--p);border-color:var(--pd2)}
+.badge.pend{background:var(--yd);color:var(--y);border-color:var(--yd2)}
+
+/* ── ICON BTN ── */
+.ibtn{width:32px;height:32px;display:flex;align-items:center;justify-content:center;
+  background:transparent;border:1px solid transparent;border-radius:var(--R3);color:var(--tm);transition:all .15s}
+.ibtn:hover{background:var(--s2);border-color:var(--b0);color:var(--t)}
+.ibtn svg{width:16px;height:16px}
+
+/* ── SMALL BTN ── */
+.sb{width:26px;height:26px;border-radius:7px;border:none;display:flex;align-items:center;justify-content:center;transition:all .15s;cursor:pointer}
+.sb svg{width:12px;height:12px}
+.sb.g{background:var(--gd);color:var(--g)}.sb.g:hover{background:var(--gd2)}
+.sb.b{background:var(--bd);color:var(--b)}.sb.b:hover{background:var(--bd2)}
+.sb.y{background:var(--yd);color:var(--y)}.sb.y:hover{background:var(--yd2)}
+.sb.r{background:var(--rd);color:var(--r)}.sb.r:hover{background:var(--rd2)}
+.sb.o{background:var(--od);color:var(--o)}.sb.o:hover{background:var(--od2)}
+.sb.ack{background:var(--r);color:#fff;width:auto;padding:0 8px;font-size:.6rem;font-weight:900}
+
+/* ── MODAL ── */
+.modal-bg{display:none;position:fixed;inset:0;z-index:9900;
+  background:rgba(0,0,0,.8);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:1rem}
+.modal-bg.open{display:flex}
+.modal{background:var(--s0);border:1px solid var(--b1);border-radius:20px;
+  padding:1.7rem;width:100%;max-width:430px;animation:m-in .2s ease}
+@keyframes m-in{from{opacity:0;transform:scale(.95) translateY(10px)}to{opacity:1;transform:none}}
+.modal h3{font-size:1.1rem;font-weight:900;margin-bottom:1.2rem}
+.fg{margin-bottom:.85rem}
+.fg label{display:block;font-size:.59rem;font-weight:700;color:var(--td);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.fi{width:100%;background:var(--s1);border:1px solid var(--b0);border-radius:var(--R3);
+  color:var(--t);padding:8px 11px;outline:none;transition:border-color .15s}
+.fi:focus{border-color:var(--g)}
+.fi.code{font-family:var(--mono);font-size:1.1rem!important;letter-spacing:.15em;text-align:center}
+.ma{display:flex;gap:8px;margin-top:1.3rem}.ma .btn{flex:1}
+.btn{padding:9px 16px;border-radius:var(--R2);border:none;font-weight:700;font-size:.82rem;transition:all .15s;cursor:pointer}
+.btn-p{background:var(--g);color:#001510;font-weight:900}.btn-p:hover{filter:brightness(1.08)}
+.btn-g{background:var(--s2);color:var(--tm);border:1px solid var(--b0)}.btn-g:hover{border-color:var(--b1);color:var(--t)}
+.btn-r{background:var(--rd);color:var(--r);border:1px solid var(--rd2)}.btn-r:hover{background:var(--rd2)}
+
+/* ── CONFIRM ── */
+.confirm-bg{display:none;position:fixed;inset:0;z-index:9950;
+  background:rgba(0,0,0,.82);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:1rem}
+.confirm-bg.open{display:flex}
+.confirm-box{background:var(--s0);border:1px solid var(--b1);border-radius:18px;
+  padding:1.6rem;max-width:360px;width:100%;text-align:center;animation:m-in .2s ease}
+.confirm-box h4{font-size:1rem;font-weight:900;margin-bottom:.5rem}
+.confirm-box p{font-size:.78rem;color:var(--tm);line-height:1.5;margin-bottom:1.3rem}
+.confirm-btns{display:flex;gap:8px}.confirm-btns .btn{flex:1;padding:10px}
+
+/* ── TOAST ── */
+.ta{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);z-index:9999;
+  display:flex;flex-direction:column;gap:5px;align-items:center;pointer-events:none}
+.toast{padding:7px 16px;background:var(--s0);border:1px solid var(--b1);border-radius:var(--R3);
+  font-size:.73rem;font-weight:600;white-space:nowrap;
+  animation:t-in .2s ease,t-out .25s ease 2.7s forwards}
+@keyframes t-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes t-out{to{opacity:0}}
+
+/* ══ LANDING ══ */
+.logo-block{display:flex;flex-direction:column;align-items:center;gap:1.1rem;margin-bottom:2rem}
+.logo-gem{width:84px;height:84px;border-radius:25px;
+  background:linear-gradient(148deg,#00dfa8,#009e72);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 0 1px rgba(0,223,168,.26),0 0 50px rgba(0,223,168,.14),0 14px 38px rgba(0,0,0,.55)}
+.logo-gem svg{width:40px;height:40px;color:#001510}
+.brand-name{font-size:2.8rem;font-weight:900;letter-spacing:-.04em;line-height:1;
+  background:linear-gradient(155deg,#fff 25%,#607d96 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+[data-theme="light"] .brand-name{background:linear-gradient(155deg,#060e1a 25%,#2a4060 100%);
+  -webkit-background-clip:text;background-clip:text}
+.brand-tag{font-size:.68rem;color:var(--td);letter-spacing:.12em;text-transform:uppercase;margin-top:2px}
+.role-list{display:grid;gap:8px;width:100%;max-width:400px}
+.role-card{display:flex;align-items:center;gap:1.1rem;padding:1.15rem 1.4rem;
+  background:var(--s0);border:1px solid var(--b0);border-radius:var(--R);
+  text-align:right;width:100%;transition:all .2s;position:relative;overflow:hidden;cursor:pointer}
+.role-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .2s}
+.role-card.rc-a::before{background:radial-gradient(ellipse at 8% 50%,rgba(77,143,255,.07),transparent 65%)}
+.role-card.rc-c::before{background:radial-gradient(ellipse at 8% 50%,rgba(153,102,255,.07),transparent 65%)}
+.role-card.rc-g::before{background:radial-gradient(ellipse at 8% 50%,rgba(0,223,168,.07),transparent 65%)}
+.role-card:hover::before{opacity:1}.role-card:hover{border-color:var(--b1)}
+.ri{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ri.a{background:var(--bd);color:var(--b)}.ri.c{background:var(--pd);color:var(--p)}.ri.g{background:var(--gd);color:var(--g)}
+.ri svg{width:18px;height:18px}
+.role-txt{flex:1}.role-name{font-size:.92rem;font-weight:800}.role-desc{font-size:.62rem;color:var(--td);margin-top:2px}
+.role-arr{color:var(--td);transform:rotate(180deg)}
+.demo-btn{margin-top:1.2rem;display:flex;align-items:center;gap:6px;padding:9px 18px;
+  border-radius:var(--R2);border:1px solid var(--b0);background:var(--s0);
+  color:var(--tm);font-size:.72rem;font-weight:700;transition:all .2s;cursor:pointer}
+.demo-btn:hover{border-color:var(--y);color:var(--y)}
+.demo-btn svg{width:13px;height:13px}
+/* Theme toggle — inline only, no fixed positioning */
+.theme-toggle{
+  padding:5px 12px;border-radius:var(--R3);border:1px solid var(--b0);
+  background:var(--s1);color:var(--tm);font-size:.68rem;font-weight:700;cursor:pointer;transition:all .2s}
+.theme-toggle:hover{border-color:var(--b1);color:var(--t)}
+
+/* ══ PIN ══ */
+.pin-card{background:var(--s0);border:1px solid var(--b1);border-radius:22px;
+  padding:2.2rem 2rem;display:flex;flex-direction:column;align-items:center;gap:1.2rem;
+  width:100%;max-width:340px;margin:1rem}
+.pin-ico{width:50px;height:50px;border-radius:15px;display:flex;align-items:center;justify-content:center}
+.pin-ico.a{background:var(--bd);color:var(--b)}.pin-ico.c{background:var(--pd);color:var(--p)}.pin-ico.g{background:var(--gd);color:var(--g)}
+.pin-ico svg{width:24px;height:24px}
+.pin-head{text-align:center}.pin-head h2{font-size:1.1rem;font-weight:900}.pin-head p{font-size:.68rem;color:var(--td);margin-top:3px}
+.pin-dots{display:flex;gap:12px}
+.pd{width:46px;height:46px;border-radius:12px;background:var(--s2);border:1px solid var(--b0);
+  display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:900;
+  color:var(--td);transition:all .15s}
+.pd.fa{background:var(--bd);border-color:var(--bd2);color:var(--b)}
+.pd.fc{background:var(--pd);border-color:var(--pd2);color:var(--p)}
+.pd.fg{background:var(--gd);border-color:var(--gd2);color:var(--g)}
+.pd.err{background:var(--rd);border-color:var(--rd2);color:var(--r);animation:shake .4s ease}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;max-width:230px}
+.pk{height:54px;border-radius:13px;background:var(--s1);border:1px solid var(--b0);
+  color:var(--t);font-size:1.22rem;font-weight:700;transition:all .15s;cursor:pointer}
+.pk:hover{background:var(--s2);border-color:var(--b1)}.pk:active{transform:scale(.94)}
+.pk.cancel{font-size:.72rem;color:var(--td)}.pk.del{font-size:1.1rem}
+/* Guide text input in pin screen */
+.pin-text-input{width:100%;max-width:230px;background:var(--s1);border:1px solid var(--b0);
+  border-radius:var(--R2);color:var(--t);padding:12px;text-align:center;outline:none;
+  font-family:var(--mono);letter-spacing:.12em;font-size:1.1rem!important;transition:border-color .15s}
+.pin-text-input:focus{border-color:var(--g)}
+.pin-submit{width:100%;max-width:230px;padding:12px;border-radius:var(--R2);
+  background:var(--g);color:#001510;font-weight:900;font-size:.9rem;cursor:pointer;border:none;transition:filter .15s}
+.pin-submit:hover{filter:brightness(1.08)}
+
+/* ══ ADMIN LAYOUT ══ */
+.sidebar{width:320px;flex-shrink:0;background:var(--s0);border-left:1px solid var(--b0);
+  display:flex;flex-direction:column;height:100dvh;overflow:hidden}
+.sb-head{padding:.85rem 1rem;border-bottom:1px solid var(--b0);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.sb-logo{display:flex;align-items:center;gap:7px}
+.sb-pulse{width:8px;height:8px;border-radius:50%;background:var(--g);animation:pulse 2s ease infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.sb-title{font-size:.82rem;font-weight:900;letter-spacing:-.01em}
+.sb-tabs{display:flex;border-bottom:1px solid var(--b0);flex-shrink:0}
+.sbt{flex:1;padding:.6rem .3rem;font-size:.67rem;font-weight:700;color:var(--td);
+  border-bottom:2px solid transparent;transition:all .15s;cursor:pointer;position:relative;text-align:center}
+.sbt:hover{color:var(--t)}.sbt.active{color:var(--g);border-bottom-color:var(--g)}
+.ndot{position:absolute;top:6px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--r);display:none}
+.ndot.show{display:block}
+.sb-body{flex:1;overflow-y:auto;padding:.7rem}
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.sh-lbl{font-size:.59rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--td)}
+.sh-add{width:22px;height:22px;border-radius:6px;border:1px solid var(--gd2);background:var(--gd);
+  color:var(--g);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s}
+.sh-add:hover{background:var(--gd2)}.sh-add svg{width:12px;height:12px}
+/* Map area */
+.map-area{flex:1;position:relative;overflow:hidden}
+#map{width:100%;height:100%;background:#070b12}
+/* Map type bar — desktop: top-right (zoom is top-left), mobile: bottom-center above tabbar */
+.map-type-bar{position:absolute;top:12px;right:12px;z-index:750;display:flex;gap:4px;flex-wrap:wrap;max-width:200px}
+.mtype{padding:5px 10px;border-radius:7px;border:1px solid var(--b0);
+  background:rgba(5,8,13,.88);backdrop-filter:blur(10px);
+  color:var(--tm);font-size:.63rem;font-weight:700;transition:all .15s;cursor:pointer}
+[data-theme="light"] .mtype{background:rgba(255,255,255,.9)}
+.mtype.active{background:var(--s1);color:var(--t);border-color:var(--b1)}.mtype:hover:not(.active){color:var(--t)}
+.map-overlay{position:absolute;bottom:14px;left:12px;z-index:750;display:flex;flex-direction:column;gap:5px}
+.mpill{display:flex;align-items:center;gap:5px;padding:5px 11px;
+  background:rgba(5,8,13,.88);backdrop-filter:blur(10px);border:1px solid var(--b0);border-radius:8px;
+  font-size:.62rem;font-weight:700;pointer-events:none}
+[data-theme="light"] .mpill{background:rgba(255,255,255,.9)}
+.mpill.g{color:var(--g);border-color:rgba(0,223,168,.2)}
+.mpd{width:7px;height:7px;border-radius:50%;background:var(--g);animation:pulse 2s ease infinite}
+.draw-hint{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:800;
+  background:rgba(5,8,13,.93);backdrop-filter:blur(12px);border:1px solid var(--y);border-radius:var(--R);
+  padding:1rem 1.6rem;color:var(--y);font-size:.77rem;font-weight:700;line-height:1.6;text-align:center;
+  pointer-events:none;display:none}
+.draw-hint.show{display:block}
+/* Offline banner */
+.offline-banner{position:fixed;top:0;left:0;right:0;z-index:8000;
+  background:var(--y);color:#3a2000;font-size:.7rem;font-weight:800;
+  text-align:center;padding:4px;display:none}
+.offline-banner.show{display:block}
+/* Mobile bottom tabbar */
+.mob-tabbar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:8000;
+  background:var(--s0);border-top:1px solid var(--b0);flex-shrink:0}
+.mob-tabbar nav{display:flex}
+.mtab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:.5rem .3rem;font-size:.55rem;font-weight:700;color:var(--td);
+  border:none;background:none;cursor:pointer;transition:color .15s;position:relative;gap:3px}
+.mtab svg{width:18px;height:18px;stroke:currentColor}
+.mtab.active{color:var(--g)}.mtab:hover{color:var(--t)}
+.mndot{position:absolute;top:6px;right:calc(50% - 14px);width:6px;height:6px;border-radius:50%;background:var(--r);display:none}
+.mndot.show{display:block}
+
+/* ══ TRIP CARDS ══ */
+.trip-card{background:var(--s1);border:1px solid var(--b0);border-radius:var(--R);padding:10px;
+  transition:border-color .2s;margin-bottom:6px}
+.trip-card:hover{border-color:var(--b1)}
+.trip-card.has-sos{border-color:var(--r);animation:sos-glow 2s ease infinite}
+@keyframes sos-glow{0%,100%{box-shadow:0 0 12px rgba(255,51,85,.1)}50%{box-shadow:0 0 26px rgba(255,51,85,.24)}}
+.trip-card.ended-card{opacity:.65}
+.tc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:7px}
+.tc-name{font-size:.88rem;font-weight:900;letter-spacing:-.01em}
+.tc-code{font-family:var(--mono);font-size:.72rem;color:var(--g);background:var(--gd);
+  border:1px solid var(--gd2);border-radius:5px;padding:1px 7px;margin-top:2px;letter-spacing:.12em;display:inline-block}
+.tc-right{display:flex;gap:3px;align-items:flex-start}
+/* Pending section */
+.pending-section{background:var(--yd);border:1px solid var(--yd2);border-radius:var(--R2);padding:7px 9px;margin:5px 0}
+.pending-header{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.pending-header svg{width:13px;height:13px;color:var(--y)}
+.pending-label{font-size:.64rem;font-weight:800;color:var(--y)}
+.pending-row{display:flex;align-items:center;justify-content:space-between;
+  padding:5px 7px;background:rgba(255,176,32,.08);border-radius:6px;margin-bottom:4px}
+.pr-info .pr-name{font-size:.76rem;font-weight:700}.pr-info .pr-sub{font-size:.6rem;color:var(--tm)}
+.pr-btns{display:flex;gap:4px}
+/* Groups */
+.groups-wrap{display:flex;flex-direction:column;gap:4px;margin-top:4px}
+.gr{display:flex;align-items:center;justify-content:space-between;
+  padding:7px 8px;background:var(--s2);border-radius:var(--R2);border:1px solid var(--b0)}
+.gr.sos-gr{border-color:var(--r);background:rgba(255,51,85,.04)}
+.gr-info{flex:1;min-width:0}.gr-name{font-size:.77rem;font-weight:800}
+.gr-sub{display:flex;align-items:center;gap:4px;margin-top:1px;font-size:.6rem;color:var(--tm);flex-wrap:wrap}
+.gr-batt{display:flex;align-items:center;gap:2px;font-family:var(--mono);font-size:.59rem;font-weight:700}
+.gr-batt svg{width:11px;height:11px}
+.gr-batt.hi{color:var(--g)}.gr-batt.mid{color:var(--y)}.gr-batt.lo{color:var(--r)}
+.gr-controls{display:flex;align-items:center;gap:3px;flex-shrink:0}
+.isel{background:var(--s0);border:1px solid var(--b0);border-radius:5px;color:var(--t);
+  font-weight:700;padding:3px 5px;outline:none;cursor:pointer}
+.isel:focus{border-color:var(--g)}
+/* Fences */
+.trip-fences{margin:5px 0;padding:6px 8px;background:var(--s2);border-radius:var(--R2);border:1px solid var(--b0)}
+.tf-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.tf-lbl{font-size:.57rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--td)}
+.fence-pill{display:flex;align-items:center;gap:5px;padding:4px 7px;
+  background:var(--s0);border:1px solid var(--b0);border-radius:6px;font-size:.68rem;font-weight:600;margin-bottom:3px}
+.fc-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.fence-card{background:var(--s1);border:1px solid var(--b0);border-radius:var(--R2);padding:9px 10px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
+.fc-n{font-size:.77rem;font-weight:800}.fc-s{font-size:.6rem;color:var(--td)}
+/* Trip actions */
+.tc-actions{display:flex;gap:4px;margin-top:7px;flex-wrap:wrap}
+.ta-btn{flex:1;min-width:60px;padding:5px 7px;border-radius:var(--R3);border:none;
+  font-size:.63rem;font-weight:700;display:flex;align-items:center;justify-content:center;gap:3px;transition:all .15s;cursor:pointer}
+.ta-btn svg{width:11px;height:11px}
+.ta-btn.add{background:var(--bd);color:var(--b);border:1px solid var(--bd2)}.ta-btn.add:hover{background:var(--bd2)}
+.ta-btn.msg{background:var(--pd);color:var(--p);border:1px solid var(--pd2)}.ta-btn.msg:hover{background:var(--pd2)}
+.ta-btn.fit{background:var(--s2);color:var(--tm);border:1px solid var(--b0)}.ta-btn.fit:hover{border-color:var(--b1);color:var(--t)}
+.ta-btn.cls{background:var(--rd);color:var(--r);border:1px solid var(--rd2)}.ta-btn.cls:hover{background:var(--rd2)}
+.ta-btn.del{background:var(--rd);color:var(--r);border:1px solid var(--rd2)}.ta-btn.del:hover{background:var(--rd2)}
+.closed-acts{display:flex;gap:4px;margin-top:7px}
+/* Bulk interval */
+.bulk-row{display:flex;align-items:center;gap:6px;margin-top:5px;padding:4px 6px;background:var(--s2);border-radius:var(--R3);border:1px solid var(--b0)}
+.bulk-row label{font-size:.6rem;color:var(--td);font-weight:700}
+.bulk-apply{padding:3px 8px;border-radius:5px;background:var(--gd);color:var(--g);border:1px solid var(--gd2);font-size:.62rem;font-weight:700;cursor:pointer}
+/* Alerts */
+.alert-item{display:flex;gap:8px;padding:7px 9px;border-radius:var(--R2);border:1px solid;margin-bottom:4px;align-items:flex-start}
+.alert-item.sos   {background:rgba(255,51,85,.04);border-color:rgba(255,51,85,.12)}
+.alert-item.breach{background:rgba(255,176,32,.04);border-color:rgba(255,176,32,.12)}
+.alert-item.ack   {background:rgba(0,223,168,.04);border-color:rgba(0,223,168,.12)}
+.alert-item.msg   {background:rgba(77,143,255,.04);border-color:rgba(77,143,255,.12)}
+.ai-lbl{font-size:.63rem;font-weight:800}
+.alert-item.sos .ai-lbl{color:var(--r)}.alert-item.breach .ai-lbl{color:var(--y)}
+.alert-item.ack .ai-lbl{color:var(--g)}.alert-item.msg .ai-lbl{color:var(--b)}
+.ai-msg{font-size:.61rem;color:var(--tm);margin-top:1px;line-height:1.4}
+.ai-time{font-family:var(--mono);font-size:.55rem;color:var(--td);margin-top:2px}
+.ai-jump{width:22px;height:22px;border-radius:6px;border:1px solid var(--bd2);background:var(--bd);
+  color:var(--b);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;margin-top:1px;transition:background .15s}
+.ai-jump:hover{background:var(--bd2)}.ai-jump svg{width:11px;height:11px}
+.alert-del{width:20px;height:20px;border-radius:5px;border:1px solid var(--b0);background:transparent;
+  color:var(--td);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;margin-top:1px;transition:all .15s}
+.alert-del:hover{background:var(--rd);border-color:var(--rd2);color:var(--r)}.alert-del svg{width:10px;height:10px}
+.empty{text-align:center;padding:1.8rem;color:var(--td);font-size:.74rem;line-height:1.7}
+/* Alerts bulk bar */
+.alerts-bulk-bar{display:flex;align-items:center;justify-content:space-between;
+  background:var(--yd);border:1px solid var(--yd2);border-radius:var(--R3);
+  padding:5px 9px;margin-bottom:6px;font-size:.67rem;font-weight:700;color:var(--y)}
+
+/* ══ GUIDE SCREEN ══ */
+#screen-guide{
+  background:radial-gradient(ellipse 100% 45% at 50% 115%,rgba(0,223,168,.04),transparent 55%),var(--bg)}
+.g-head{padding:.85rem 1.2rem;border-bottom:1px solid var(--b0);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.g-brand{display:flex;align-items:center;gap:8px}
+.g-ico{width:34px;height:34px;border-radius:10px;background:var(--g);display:flex;align-items:center;justify-content:center;color:#001510}
+.g-ico svg{width:17px;height:17px}
+.g-txt .gn{font-size:.86rem;font-weight:900}.g-txt .gs{font-size:.57rem;color:var(--td);letter-spacing:.08em;text-transform:uppercase}
+.g-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+  padding:1.2rem 1.4rem;gap:1rem;overflow-y:auto}
+.sel-card{width:100%;max-width:360px;background:var(--s0);border:1px solid var(--b0);border-radius:var(--R);padding:.85rem;display:flex;flex-direction:column;gap:7px}
+.sg{display:flex;flex-direction:column;gap:4px}
+.sg label{font-size:.57rem;font-weight:700;color:var(--td);letter-spacing:.1em;text-transform:uppercase}
+.sg input{background:var(--s1);border:1px solid var(--b0);border-radius:var(--R3);color:var(--t);padding:7px 10px;outline:none;width:100%;transition:border-color .15s}
+.sg input:focus{border-color:var(--g)}
+.join-err{font-size:.7rem;color:var(--r);text-align:center;font-weight:700;display:none;padding:2px 0}
+.join-mode-btns{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.g-cur{text-align:center;width:100%;max-width:360px}
+.g-trip-name{font-size:1.85rem;font-weight:900;letter-spacing:-.03em}
+.g-grp-name{font-size:.93rem;color:var(--tm);margin-top:-4px}
+.g-status{display:flex;align-items:center;justify-content:center;gap:7px;margin-top:5px}
+.live-ind{display:flex;align-items:center;gap:4px;font-size:.64rem;font-weight:700;color:var(--g)}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--g);animation:pulse 1.5s ease infinite}
+.g-btns{display:flex;flex-direction:column;align-items:center;gap:1rem;width:100%;max-width:360px}
+.big-start{width:150px;height:150px;border-radius:50%;border:none;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  font-weight:900;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;
+  background:linear-gradient(148deg,#00dfa8,#009e72);color:#001510;
+  box-shadow:0 0 55px rgba(0,223,168,.2),0 14px 34px rgba(0,0,0,.55);transition:transform .2s;cursor:pointer}
+.big-start:hover{transform:scale(1.04)}.big-start:active{transform:scale(.96)}.big-start svg{width:42px;height:42px}
+.big-stop{width:150px;height:150px;border-radius:50%;border:4px solid var(--r);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  font-weight:900;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;
+  background:var(--s0);color:var(--r);box-shadow:0 0 28px rgba(255,51,85,.11),0 14px 34px rgba(0,0,0,.55);transition:transform .2s;cursor:pointer}
+.big-stop:hover{transform:scale(1.04)}.big-stop:active{transform:scale(.96)}.big-stop svg{width:42px;height:42px}
+/* SOS button — smaller, double-tap required */
+.sos-btn{width:100%;max-width:360px;padding:.75rem 1rem;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  font-weight:900;font-size:.97rem;border:2px solid rgba(255,51,85,.32);
+  background:var(--rd);color:var(--r);transition:all .2s;cursor:pointer}
+.sos-btn:hover{background:var(--rd2);border-color:var(--r)}.sos-btn:active{transform:scale(.98)}
+.sos-btn.armed{background:var(--r);color:#fff;border-color:var(--r)}
+.sos-btn.sent{background:var(--r);color:#fff;border-color:var(--r);animation:blink 1.3s ease infinite;cursor:default}
+.sos-btn svg{width:19px;height:19px}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.7}}
+.mode-row{display:flex;flex-direction:column;align-items:center;gap:5px}
+.mode-tog{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:var(--R3);border:1px solid var(--b0);background:var(--s0);font-size:.68rem;font-weight:700;color:var(--td);transition:all .2s;cursor:pointer}
+.mode-tog.burst{background:var(--yd);border-color:var(--yd2);color:var(--y)}
+.mode-tog svg{width:12px;height:12px}
+.mode-hint{font-size:.59rem;color:var(--td);text-align:center;max-width:250px;line-height:1.5}
+.leave-trip-btn{display:none;align-items:center;justify-content:center;gap:7px;
+  width:100%;max-width:360px;padding:9px 16px;border-radius:var(--R2);
+  border:1px solid var(--rd2);background:var(--rd);color:var(--r);
+  font-size:.78rem;font-weight:700;cursor:pointer;transition:background .15s}
+.leave-trip-btn:hover{background:var(--rd2)}
+.leave-trip-btn svg{width:14px;height:14px}
+.g-foot{padding:.85rem 1.2rem;border-top:1px solid var(--b0);display:grid;grid-template-columns:repeat(3,1fr);flex-shrink:0}
+.gstat{text-align:center}.gstat .sl{font-size:.55rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--td)}
+.gstat .sv{font-family:var(--mono);font-size:.9rem;font-weight:700;margin-top:2px}
+
+/* ── Guide Inbox ── */
+.g-inbox{width:100%;max-width:360px;border:1px solid var(--b0);border-radius:var(--R);background:var(--s0);overflow:hidden}
+.g-inbox-head{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;
+  border-bottom:1px solid var(--b0);background:var(--s1);cursor:pointer;user-select:none}
+.g-inbox-title{display:flex;align-items:center;gap:7px;font-size:.72rem;font-weight:800}
+.g-inbox-badge{display:none;min-width:17px;height:17px;border-radius:99px;
+  background:var(--b);color:#fff;font-size:.58rem;font-weight:900;
+  align-items:center;justify-content:center;padding:0 4px}
+.g-inbox-badge.show{display:flex}
+.g-inbox-list{display:none;max-height:240px;overflow-y:auto}
+.g-inbox-list.open{display:block}
+.g-msg{padding:9px 12px;border-bottom:1px solid var(--b0)}
+.g-msg:last-child{border-bottom:none}
+.g-msg.unread{background:var(--bd)}
+.g-msg-from{font-size:.58rem;font-weight:700;color:var(--tm);text-transform:uppercase;letter-spacing:.07em;margin-bottom:2px}
+.g-msg-text{font-size:.78rem;color:var(--t);font-weight:600;line-height:1.4}
+.g-msg-meta{display:flex;align-items:center;justify-content:space-between;margin-top:3px}
+.g-msg-time{font-size:.55rem;color:var(--td);font-family:var(--mono)}
+.g-msg-reply-btn{font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:5px;
+  border:1px solid var(--bd2);background:var(--bd);color:var(--b);cursor:pointer;transition:background .15s}
+.g-msg-reply-btn:hover{background:var(--bd2)}
+.g-reply-row{background:var(--gd);border-top:1px solid var(--gd2);padding:4px 12px;font-size:.68rem;color:var(--g)}
+.g-reply-row span{color:var(--td);margin-left:5px;font-size:.55rem;font-family:var(--mono)}
+.g-inbox-compose{display:flex;gap:5px;padding:8px 10px;border-top:1px solid var(--b0);background:var(--s1);display:none}
+.g-inbox-compose.open{display:flex}
+.g-inbox-ta{flex:1;background:var(--s2);border:1px solid var(--b0);border-radius:var(--R3);
+  color:var(--t);padding:6px 9px;outline:none;font-family:var(--sans);font-size:.8rem!important;resize:none;transition:border-color .15s}
+.g-inbox-ta:focus{border-color:var(--g)}
+.g-inbox-send{padding:6px 12px;border-radius:var(--R3);background:var(--g);color:#001510;
+  font-size:.72rem;font-weight:900;cursor:pointer;flex-shrink:0;border:none;transition:filter .15s}
+.g-inbox-send:hover{filter:brightness(1.1)}
+.g-inbox-chevron{transition:transform .25s}
+
+/* ── DEMO RIB ── */
+.demo-rib{position:fixed;top:10px;left:50%;transform:translateX(-50%);z-index:8000;
+  padding:3px 13px;border-radius:99px;background:var(--yd);border:1px solid var(--yd2);
+  font-size:.59rem;font-weight:800;color:var(--y);letter-spacing:.08em;text-transform:uppercase;display:none;pointer-events:none}
+.demo-rib.show{display:block}
+
+/* ── Leaflet overrides ── */
+.leaflet-control-attribution{background:rgba(5,8,13,.85)!important;color:#2c4055!important}
+.leaflet-control-attribution a{color:#2c4055!important}
+.leaflet-control-zoom a{background:var(--s0)!important;color:var(--t)!important;border-color:var(--b0)!important}
+.leaflet-tooltip{background:rgba(5,8,13,.92)!important;border:1px solid var(--b1)!important;
+  color:var(--t)!important;font-family:var(--sans);font-size:.69rem;font-weight:700;
+  border-radius:7px;box-shadow:0 4px 12px rgba(0,0,0,.4);padding:4px 10px}
+[data-theme="light"] .leaflet-tooltip{background:rgba(255,255,255,.95)!important;border-color:var(--b0)!important;color:var(--t)!important}
+.cm{border-radius:50%;border:2.5px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.5)}
+.cm.active{background:#00dfa8;box-shadow:0 0 12px #00dfa8}
+.cm.sos{background:#ff3355;box-shadow:0 0 20px #ff3355;animation:sos-glow 1s ease infinite}
+.cm.ended{background:#1a2d3e;border-color:#2c4055}
+
+/* ══ MOBILE ══ */
+@media(max-width:768px){
+  #screen-admin{flex-direction:column}
+  .sidebar{width:100%;height:auto;border-left:none;border-bottom:1px solid var(--b0);display:none}
+  .sidebar.mob-active{display:flex;flex:1;overflow:hidden}
+  .map-area{display:none}
+  .map-area.mob-active{display:block;flex:1}
+  .mob-tabbar{display:block}
+  .map-type-bar{top:auto;right:auto;bottom:70px;left:50%;transform:translateX(-50%);max-width:calc(100vw - 24px);justify-content:center}
+  .map-overlay{bottom:70px}
+  body{padding-bottom:0}
+}
+</style>
+</head>
+<body>
+
+<!-- floating theme toggle REMOVED - now inline in each screen header -->
+<div class="offline-banner" id="offlineBanner">📡 אין חיבור — מיקומים נשמרים מקומית</div>
+<div class="ta" id="ta"></div>
+<div class="demo-rib" id="demoRib">🎮 מצב הדגמה</div>
+
+<!-- ═══ LANDING ═══ -->
+<div id="screen-landing" class="screen active">
+  <div style="position:absolute;top:12px;left:12px">
+    <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()">☀️ יום</button>
+  </div>
+  <div class="logo-block">
+    <div class="logo-gem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+    <h1 class="brand-name">Youth-Track</h1>
+    <p class="brand-tag">נתיב הנוער · ניהול טיולים ובטיחות</p>
+  </div>
+  <div class="role-list">
+    <button class="role-card rc-a" onclick="goPin('admin')">
+      <div class="ri a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <div class="role-txt"><div class="role-name">מנהל ראשי</div><div class="role-desc">שליטה מלאה · אישור קבוצות · גבולות</div></div>
+      <svg class="role-arr" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <button class="role-card rc-c" onclick="goPin('coord')">
+      <div class="ri c"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M2 12s4-8 10-8 10 8 10 8-4 8-10 8-10-8-10-8z"/></svg></div>
+      <div class="role-txt"><div class="role-name">רכז</div><div class="role-desc">צפייה בלבד · מפה · סטטוסים</div></div>
+      <svg class="role-arr" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <button class="role-card rc-g" onclick="goPin('group')">
+      <div class="ri g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg></div>
+      <div class="role-txt"><div class="role-name">מדריך / קבוצה</div><div class="role-desc">הרשמה לטיול · SOS · שידור מיקום</div></div>
+      <svg class="role-arr" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+  </div>
+  <button class="demo-btn" onclick="startDemo()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+    מצב הדגמה — 3 טיולים, 5 קבוצות, גבולות
+  </button>
+</div>
+
+<!-- ═══ PIN ═══ -->
+<div id="screen-pin" class="screen">
+  <div class="pin-card">
+    <div class="pin-ico a" id="pinIco"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+    <div class="pin-head"><h2 id="pinTitle">אימות מנהל</h2><p id="pinHint">קוד: 1234</p></div>
+    <!-- Numeric pad (admin / coord) -->
+    <div id="pinNumSection">
+      <div class="pin-dots" style="margin-bottom:1rem">
+        <div class="pd" id="pd0">·</div><div class="pd" id="pd1">·</div>
+        <div class="pd" id="pd2">·</div><div class="pd" id="pd3">·</div>
+      </div>
+      <div class="pin-pad">
+        <button class="pk" onclick="pk(1)">1</button><button class="pk" onclick="pk(2)">2</button><button class="pk" onclick="pk(3)">3</button>
+        <button class="pk" onclick="pk(4)">4</button><button class="pk" onclick="pk(5)">5</button><button class="pk" onclick="pk(6)">6</button>
+        <button class="pk" onclick="pk(7)">7</button><button class="pk" onclick="pk(8)">8</button><button class="pk" onclick="pk(9)">9</button>
+        <button class="pk cancel" onclick="show('screen-landing')">ביטול</button>
+        <button class="pk" onclick="pk(0)">0</button>
+        <button class="pk del" onclick="pdel()">⌫</button>
+      </div>
+    </div>
+    <!-- Text input (group) -->
+    <div id="pinTxtSection" style="display:none;flex-direction:column;align-items:center;gap:10px;width:100%">
+      <input class="pin-text-input" id="pinTxtInput" type="text" placeholder="ABC1" maxlength="6"
+        style="text-transform:uppercase" oninput="this.value=this.value.toUpperCase()"
+        onkeydown="if(event.key==='Enter')pinTextSubmit()"/>
+      <button class="pin-submit" onclick="pinTextSubmit()">כניסה</button>
+      <button class="pk cancel" style="width:100%;max-width:230px" onclick="show('screen-landing')">ביטול</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ADMIN ═══ -->
+<div id="screen-admin" class="screen">
+  <!-- Sidebar -->
+  <div class="sidebar" id="adminSidebar">
+    <div class="sb-head">
+      <div class="sb-logo">
+        <div class="sb-pulse"></div>
+        <span class="sb-title">מרכז פיקוד</span>
+        <span class="badge adm" id="roleBadge">מנהל</span>
+      </div>
+      <div style="display:flex;gap:4px;align-items:center">
+        <button class="theme-toggle" id="themeBtnSidebar" onclick="toggleTheme()">☀️ יום</button>
+        <button class="ibtn" onclick="adminLogout()" title="יציאה">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="sb-tabs">
+      <button class="sbt active" id="tab-trips" onclick="setTab('trips')">טיולים</button>
+      <button class="sbt" id="tab-fences" onclick="setTab('fences')">גבולות</button>
+      <button class="sbt" id="tab-alerts" onclick="setTab('alerts')">
+        התראות<div class="ndot" id="alertDot"></div>
+      </button>
+    </div>
+    <div class="sb-body" id="sbBody"></div>
+  </div>
+  <!-- Map -->
+  <div class="map-area" id="adminMap">
+    <div id="map"></div>
+    <!-- Map type buttons (Leaflet) -->
+    <div class="map-type-bar" id="mapTypeBarL" style="display:none">
+      <button class="mtype active" id="lt-dark" onclick="setLType('dark')">לילה</button>
+      <button class="mtype" id="lt-osm" onclick="setLType('osm')">רחוב</button>
+      <button class="mtype" id="lt-topo" onclick="setLType('topo')">טופו</button>
+    </div>
+    <!-- Status pills -->
+    <div class="map-overlay" id="mapOverlay" style="display:none">
+      <div class="mpill g" id="pillActive"><div class="mpd"></div><span id="pillActiveN">0</span> פעילות</div>
+      <div class="mpill" id="pillSOS" style="color:var(--r);border-color:rgba(255,51,85,.2);display:none">🚨 <span id="pillSOSN">0</span> SOS</div>
+    </div>
+    <div class="draw-hint" id="drawHint">✏️ צייר פוליגון על המפה<br>לחץ נקודה-נקודה, לחץ פעמיים לסיום</div>
+  </div>
+  <!-- Mobile tabbar -->
+  <div class="mob-tabbar">
+    <nav>
+      <button class="mtab" id="mtab-trips" onclick="setMobTab('trips')">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>טיולים
+      </button>
+      <button class="mtab" id="mtab-map" onclick="setMobTab('map')">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>מפה
+      </button>
+      <button class="mtab" id="mtab-fences" onclick="setMobTab('fences')">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/></svg>גבולות
+      </button>
+      <button class="mtab" id="mtab-alerts" onclick="setMobTab('alerts')">
+        <div class="mndot" id="mobAlertDot"></div>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>התראות
+      </button>
+    </nav>
+  </div>
+</div>
+
+<!-- ═══ GUIDE ═══ -->
+<div id="screen-guide" class="screen">
+  <div class="g-head">
+    <div class="g-brand">
+      <div class="g-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <div class="g-txt"><div class="gn">Youth-Track</div><div class="gs">מדריך שטח</div></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px">
+      <button class="theme-toggle" id="themeBtnGuide" onclick="toggleTheme()">☀️ יום</button>
+      <button class="ibtn" title="חזרה לבחירת תפקיד" onclick="guideBack()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="g-body">
+
+    <!-- STEP 1: Trip code -->
+    <div class="sel-card" id="joinStep1">
+      <div class="sg">
+        <label>קוד טיול</label>
+        <input type="text" id="gTripCode" placeholder="ABC1" maxlength="6"
+          style="text-transform:uppercase;font-family:var(--mono);font-size:1.15rem!important;letter-spacing:.15em;text-align:center"
+          oninput="this.value=this.value.toUpperCase()"
+          onkeydown="if(event.key==='Enter')lookupTrip()"/>
+      </div>
+      <div class="join-err" id="tripLookupErr"></div>
+      <button class="btn btn-p" onclick="lookupTrip()" style="width:100%;margin-top:4px">המשך →</button>
+    </div>
+
+    <!-- STEP 2: New or existing group -->
+    <div class="sel-card" id="joinStep2" style="display:none">
+      <div id="joinTripFound" style="font-size:.72rem;color:var(--g);font-weight:800;text-align:center;margin-bottom:4px"></div>
+      <div class="join-mode-btns" id="joinModeBtns">
+        <button class="btn btn-g" id="btnJoinNew" onclick="selectJoinMode('new')">➕ קבוצה חדשה</button>
+        <button class="btn btn-g" id="btnJoinExist" onclick="selectJoinMode('exist')">🔑 קבוצה קיימת</button>
+      </div>
+      <!-- New group fields -->
+      <div id="joinNewFields" style="display:none;flex-direction:column;gap:7px">
+        <div class="sg"><label>שם הקבוצה</label><input type="text" id="gGrpNameIn" placeholder="שומרים · זאבים..."/></div>
+        <div class="sg"><label>שם המדריך</label><input type="text" id="gGuideIn" placeholder="יוסי לוי"/></div>
+        <div class="sg">
+          <label>קוד אישי (4 ספרות) — לחזרה</label>
+          <input type="text" id="gPersonalCode" placeholder="1234" maxlength="4" inputmode="numeric"
+            style="font-family:var(--mono);letter-spacing:.2em;text-align:center"/>
+          <div style="font-size:.6rem;color:var(--td);margin-top:2px">ישמש לכניסה חוזרת ללא המנהל</div>
+        </div>
+        <button class="btn btn-p" onclick="submitJoinRequest()" style="width:100%">שלח בקשת הצטרפות</button>
+      </div>
+      <!-- Existing group fields -->
+      <div id="joinExistFields" style="display:none;flex-direction:column;gap:7px">
+        <div class="sg"><label>שם הקבוצה שלי</label><input type="text" id="gExistGrpName" placeholder="שומרים"/></div>
+        <div class="sg">
+          <label>קוד אישי</label>
+          <input type="text" id="gExistCode" placeholder="1234" maxlength="4" inputmode="numeric"
+            style="font-family:var(--mono);letter-spacing:.2em;text-align:center"/>
+        </div>
+        <div class="join-err" id="existErr"></div>
+        <button class="btn btn-p" onclick="returnToGroup()" style="width:100%">כניסה לקבוצה</button>
+      </div>
+      <button class="btn btn-g" onclick="backToStep1()" style="width:100%;margin-top:4px;font-size:.72rem">← חזור</button>
+    </div>
+
+    <!-- Active trip display -->
+    <div class="g-cur" id="gCur" style="display:none">
+      <div class="g-trip-name" id="gTripName">—</div>
+      <div class="g-grp-name" id="gGrpName"></div>
+      <div class="g-status">
+        <span class="badge off" id="gBadge">ממתין לאישור</span>
+        <div class="live-ind" id="gLiveInd" style="display:none"><div class="live-dot"></div>שידור חי</div>
+      </div>
+      <div id="gJoinStatus" style="font-size:.7rem;color:var(--tm);text-align:center;margin-top:6px;display:none"></div>
+    </div>
+
+    <!-- SOS button — always visible, double-tap required -->
+    <button class="sos-btn" id="sosBtnG" onclick="triggerSOS()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      SOS — לחץ פעמיים לשליחה
+    </button>
+
+    <div class="g-btns" id="gBtns"></div>
+
+    <div class="mode-row" id="modeRow" style="display:none">
+      <button class="mode-tog" id="modeTog" onclick="toggleBurst()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        מצב חסכוני
+      </button>
+      <div class="mode-hint" id="modeHint">תדירות לפי הגדרת המנהל.</div>
+    </div>
+
+    <button class="leave-trip-btn" id="leaveTripBtn" onclick="confirmLeaveTrip()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+      התנתק מהטיול
+    </button>
+
+    <!-- Inbox -->
+    <div class="g-inbox" id="guideInbox" style="display:none">
+      <div class="g-inbox-head" onclick="toggleInbox()">
+        <div class="g-inbox-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          הודעות ממוקד
+          <span class="g-inbox-badge" id="inboxBadge">0</span>
+        </div>
+        <svg class="g-inbox-chevron" id="inboxChevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="g-inbox-list" id="inboxList"></div>
+      <div class="g-inbox-compose" id="inboxCompose">
+        <textarea class="g-inbox-ta" id="inboxReplyTa" rows="2" placeholder="הקלד תשובה..."></textarea>
+        <button class="g-inbox-send" onclick="sendReply()">שלח</button>
+      </div>
+    </div>
+
+  </div>
+  <div class="g-foot">
+    <div class="gstat"><div class="sl">סוללה</div><div class="sv" id="gBatt">—</div></div>
+    <div class="gstat"><div class="sl">אות</div><div class="sv" id="gSig">—</div></div>
+    <div class="gstat"><div class="sl">זמן פעיל</div><div class="sv" id="gUp">00:00</div></div>
+  </div>
+</div>
+
+<!-- MODALS -->
+<div class="modal-bg" id="mTrip"><div class="modal">
+  <h3>🗺️ טיול חדש</h3>
+  <div class="fg"><label>שם הטיול</label><input class="fi" id="mTripName" placeholder="טיול ירדן 2025"/></div>
+  <div class="fg"><label>קוד הצטרפות</label>
+    <input class="fi code" id="mTripCode" placeholder="ABC1" maxlength="6" style="text-transform:uppercase" oninput="this.value=this.value.toUpperCase()"/>
+    <div style="font-size:.6rem;color:var(--td);margin-top:3px">השאר ריק לקוד אוטומטי.</div>
+  </div>
+  <div class="ma"><button class="btn btn-g" onclick="closeM('mTrip')">ביטול</button><button class="btn btn-p" onclick="createTrip()">פתח טיול</button></div>
+</div></div>
+
+<div class="modal-bg" id="mGroup"><div class="modal">
+  <h3>➕ הוספת קבוצה</h3>
+  <div class="fg"><label>שם הקבוצה</label><input class="fi" id="mGrpName" placeholder="שומרים"/></div>
+  <div class="fg"><label>שם המדריך</label><input class="fi" id="mGuide" placeholder="יוסי לוי"/></div>
+  <div class="ma"><button class="btn btn-g" onclick="closeM('mGroup')">ביטול</button><button class="btn btn-p" onclick="createGroup()">הוסף</button></div>
+</div></div>
+
+<div class="modal-bg" id="mMsg"><div class="modal">
+  <h3>💬 שלח הודעה לקבוצות</h3>
+  <div class="fg"><label>נמענים</label><select class="fi" id="msgTarget"><option value="all">כל הקבוצות</option></select></div>
+  <div class="fg"><label>הודעה</label><textarea class="fi" id="msgText" rows="3" placeholder="הודעה לקבוצות..."></textarea></div>
+  <div class="ma"><button class="btn btn-g" onclick="closeM('mMsg')">ביטול</button><button class="btn btn-p" onclick="sendMsg()">שלח</button></div>
+</div></div>
+
+<!-- Quick reply modal for replying to a specific alert/group -->
+<div class="modal-bg" id="mReply"><div class="modal">
+  <h3 id="mReplyTitle">↩ תגובה לקבוצה</h3>
+  <div class="fg">
+    <label>נמען</label>
+    <div id="mReplyTarget" style="font-size:.82rem;font-weight:700;padding:6px 10px;background:var(--bd);color:var(--b);border-radius:var(--R3)"></div>
+  </div>
+  <div class="fg"><label>תגובה</label><textarea class="fi" id="mReplyText" rows="3" placeholder="כתוב תגובה..."></textarea></div>
+  <div class="ma"><button class="btn btn-g" onclick="closeM('mReply')">ביטול</button><button class="btn btn-p" onclick="sendAlertReply()">שלח ↩</button></div>
+</div></div>
+
+<div class="modal-bg" id="mFence"><div class="modal">
+  <h3>📍 גבול גזרה</h3>
+  <div class="fg"><label>שם האזור</label><input class="fi" id="fName" placeholder="מחנה · כביש ראשי..."/></div>
+  <div class="fg"><label>סוג</label>
+    <select class="fi" id="fType">
+      <option value="safe">✅ אזור מותר (ירוק)</option>
+      <option value="danger">🚫 אזור אסור (אדום)</option>
+      <option value="warn">⚠️ אזור אזהרה (כתום)</option>
+    </select>
+  </div>
+  <div class="ma"><button class="btn btn-g" onclick="cancelFence()">ביטול</button><button class="btn btn-p" onclick="confirmFence()">שמור</button></div>
+</div></div>
+
+<div class="confirm-bg" id="confirmDlg"><div class="confirm-box">
+  <h4 id="confirmTitle">האם אתה בטוח?</h4>
+  <p id="confirmMsg"></p>
+  <div class="confirm-btns">
+    <button class="btn btn-g" onclick="confirmNo()">ביטול</button>
+    <button class="btn btn-r" onclick="confirmYes()">אישור</button>
+  </div>
+</div></div>
+
+<script>
+'use strict';
+/* ═══════════════════════════════════════════════════
+   CONSTANTS
+═══════════════════════════════════════════════════ */
+const PINS={admin:'1234',coord:'5678'};
+const INTERVALS={
+  live:{label:'לייב',ms:4000},
+  '5m':{label:'5 דק\'',ms:300000},
+  '15m':{label:'15 דק\'',ms:900000},
+  '30m':{label:'30 דק\'',ms:1800000},
+  off:{label:'כבוי',ms:0}
+};
+const L_TILES={
+  dark:'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+  osm:'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  topo:'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png'
+};
+const TILE_ATTR={
+  dark:'© <a href="https://www.openstreetmap.org/copyright">OSM</a> © <a href="https://carto.com/">CARTO</a>',
+  osm:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  topo:'© <a href="https://opentopomap.org">OpenTopoMap</a> (CC-BY-SA) © <a href="https://www.openstreetmap.org/copyright">OSM</a>'
+};
+const FENCE_COLORS={safe:'#00dfa8',danger:'#ff3355',warn:'#ffb020'};
+
+/* ═══════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════ */
+const S={
+  role:null,pendingRole:null,
+  trips:[],
+  alerts:[],
+  tab:'trips',mobTab:'trips',
+  // guide
+  gGrpId:null,gTripId:null,gPendingId:null,
+  isTracking:false,burstMode:false,isEmergency:false,gApproved:false,
+  uptimeStart:null,uptimeInt:null,locationInt:null,approvalPoll:null,
+  // guide inbox
+  inbox:[],
+  inboxOpen:false,
+  replyToMsgId:null,
+  // map
+  leafMap:null,leafLayer:null,
+  markers:{},fenceLayers:{},drawnItems:null,leafDraw:null,editControl:null,
+  pendingFenceCoords:null,pendingFenceLayer:null,pendingFenceTripId:null,editingFenceId:null,
+  // audio
+  audioCtx:null,sirenInt:null,
+  // demo
+  isDemoMode:false,demoInt:null,
+  // offline
+  offlineQueue:[],
+};
+let _confirmCb=null;
+let _sosArmTimer=null;
+
+/* ═══════════════════════════════════════════════════
+   THEME
+═══════════════════════════════════════════════════ */
+function applyTheme(mode,save){
+  document.documentElement.setAttribute('data-theme',mode);
+  const isDark=mode==='dark';
+  const lbl=isDark?'☀️ יום':'🌙 לילה';
+  document.querySelectorAll('.theme-toggle').forEach(b=>b.textContent=lbl);
+  if(save!==false)localStorage.setItem('yt-theme',mode);
+  if(S.leafMap){setLType(isDark?'dark':'osm');}
+}
+function toggleTheme(){
+  const cur=document.documentElement.getAttribute('data-theme')||'dark';
+  applyTheme(cur==='dark'?'light':'dark');
+}
+// Init theme
+(function(){applyTheme(localStorage.getItem('yt-theme')||'dark',false);})();
+
+/* ═══════════════════════════════════════════════════
+   SCREENS
+═══════════════════════════════════════════════════ */
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+/* Guide back arrow — if connected, confirm first */
+function guideBack(){
+  if(S.isTracking||S.gApproved){
+    confirm2('חזרה לדף הבית?','השידור יופסק ותתנתק מהטיול.',()=>{guideLogout();});
+  }else{
+    show('screen-landing');
+    // Reset guide state without clearing session
+    document.getElementById('joinStep1').style.display='flex';
+    document.getElementById('joinStep2').style.display='none';
+    document.getElementById('joinNewFields').style.display='none';
+    document.getElementById('joinExistFields').style.display='none';
+    document.getElementById('gCur').style.display='none';
+    document.getElementById('gJoinStatus').style.display='none';
+    document.getElementById('leaveTripBtn').style.display='none';
+    document.getElementById('guideInbox').style.display='none';
+    document.getElementById('gBtns').innerHTML='';
+    document.getElementById('modeRow').style.display='none';
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   OFFLINE
+═══════════════════════════════════════════════════ */
+window.addEventListener('online',()=>{
+  document.getElementById('offlineBanner').classList.remove('show');
+  flushOffline();toast('🌐 החיבור חזר','#00dfa8');
+});
+window.addEventListener('offline',()=>{
+  document.getElementById('offlineBanner').classList.add('show');
+  toast('📡 אין חיבור','#ffb020');
+});
+if(!navigator.onLine)document.getElementById('offlineBanner').classList.add('show');
+function flushOffline(){
+  if(!S.offlineQueue.length)return;
+  S.offlineQueue.forEach(item=>{
+    const g=findGrp(item.gid);
+    if(g){g.lat=item.lat;g.lng=item.lng;g.lastSeen=item.ts;updateMarker(g);}
+  });
+  toast(`📡 שודרו ${S.offlineQueue.length} מיקומים אופליין`,'#00dfa8');
+  S.offlineQueue=[];
+}
+
+/* ═══════════════════════════════════════════════════
+   GUIDE SESSION PERSISTENCE
+═══════════════════════════════════════════════════ */
+const LS_KEY='yt_guide_sess';
+function saveSession(code,grpName,guideName,pCode){
+  try{localStorage.setItem(LS_KEY,JSON.stringify({code,grpName,guideName,pCode:pCode||null,ts:Date.now()}));}catch(e){}
+}
+function loadSession(){try{const d=localStorage.getItem(LS_KEY);return d?JSON.parse(d):null;}catch(e){return null;}}
+function clearSession(){try{localStorage.removeItem(LS_KEY);}catch(e){}}
+
+function checkSessionRestore(){
+  const sess=loadSession();if(!sess)return;
+  // Pre-fill trip code on guide screen
+  const el=document.getElementById('gTripCode');
+  if(el)el.value=sess.code||'';
+  show('screen-guide');
+  toast(`👋 ברוך השב${sess.guideName?' '+sess.guideName:''}! הזן קוד לכניסה חוזרת.`,'#4d8fff');
+}
+
+/* ═══════════════════════════════════════════════════
+   LANDING / PIN
+═══════════════════════════════════════════════════ */
+function goPin(role){
+  S.pendingRole=role;
+  const cfg={
+    admin:{cls:'a',title:'אימות מנהל',hint:'קוד ברירת מחדל: 1234'},
+    coord:{cls:'c',title:'אימות רכז',hint:'קוד ברירת מחדל: 5678'},
+    group:{cls:'g',title:'כניסת מדריך / קבוצה',hint:'הזן קוד הצטרפות לטיול'}
+  };
+  const c=cfg[role]||cfg.admin;
+  document.getElementById('pinIco').className=`pin-ico ${c.cls}`;
+  document.getElementById('pinTitle').textContent=c.title;
+  document.getElementById('pinHint').textContent=c.hint;
+  const isGroup=role==='group';
+  document.getElementById('pinNumSection').style.display=isGroup?'none':'block';
+  document.getElementById('pinTxtSection').style.display=isGroup?'flex':'none';
+  if(isGroup){
+    // Pre-fill from session
+    const sess=loadSession();
+    const inp=document.getElementById('pinTxtInput');
+    if(inp){inp.value=sess?.code||'';setTimeout(()=>inp.focus(),120);}
+  }
+  show('screen-pin');pinReset();
+}
+function pinTextSubmit(){
+  const code=document.getElementById('pinTxtInput').value.trim().toUpperCase();
+  if(!code){toast('הזן קוד טיול','#ffb020');return;}
+  // Pre-fill guide screen and go
+  const el=document.getElementById('gTripCode');
+  if(el)el.value=code;
+  show('screen-guide');
+  resetGuideScreen();
+}
+
+let _pin='';
+function pinReset(){_pin='';pinDraw();}
+function pk(n){
+  if(_pin.length>=4)return;
+  _pin+=n;pinDraw();
+  if(_pin.length===4){
+    if(_pin===PINS[S.pendingRole]){
+      setTimeout(()=>{S.role=S.pendingRole;enterDashboard();},200);
+    }else{
+      for(let i=0;i<4;i++)document.getElementById('pd'+i).classList.add('err');
+      toast('קוד שגוי','#ff3355');
+      setTimeout(()=>{_pin='';pinDraw();},700);
+    }
+  }
+}
+function pdel(){_pin=_pin.slice(0,-1);pinDraw();}
+function pinDraw(){
+  const cls={admin:'fa',coord:'fc',group:'fg'}[S.pendingRole]||'fa';
+  for(let i=0;i<4;i++){
+    const d=document.getElementById('pd'+i);
+    d.classList.remove('err','fa','fc','fg');
+    if(i<_pin.length){d.classList.add(cls);d.textContent='●';}else d.textContent='·';
+  }
+}
+function adminLogout(){
+  stopSiren();S.isDemoMode=false;clearInterval(S.demoInt);
+  document.getElementById('demoRib').classList.remove('show');
+  show('screen-landing');
+}
+function guideLogout(){
+  if(S.isTracking)stopTracking();
+  clearInterval(S.approvalPoll);
+  S.gApproved=false;S.gGrpId=null;S.gTripId=null;S.gPendingId=null;
+  clearSession();
+  document.getElementById('leaveTripBtn').style.display='none';
+  show('screen-landing');
+}
+function confirmLeaveTrip(){
+  confirm2('התנתק מהטיול?','שידור המיקום יופסק.',()=>guideLogout());
+}
+function enterDashboard(){
+  show('screen-admin');
+  const rb=document.getElementById('roleBadge');
+  rb.textContent=S.role==='admin'?'מנהל':'רכז';
+  rb.className=`badge ${S.role==='admin'?'adm':'crd'}`;
+  initMap();renderSidebar();
+  if(window.innerWidth<=768){
+    document.getElementById('adminSidebar').classList.add('mob-active');
+    document.getElementById('adminMap').classList.remove('mob-active');
+    document.getElementById('mtab-trips').classList.add('active');
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   MOBILE TABS
+═══════════════════════════════════════════════════ */
+function setMobTab(tab){
+  if(window.innerWidth>768)return;
+  S.mobTab=tab;
+  document.querySelectorAll('.mtab').forEach(b=>b.classList.remove('active'));
+  const btn=document.getElementById('mtab-'+tab);if(btn)btn.classList.add('active');
+  const mapEl=document.getElementById('adminMap');
+  const sbEl=document.getElementById('adminSidebar');
+  if(tab==='map'){
+    mapEl.classList.add('mob-active');sbEl.classList.remove('mob-active');
+    if(S.leafMap)setTimeout(()=>S.leafMap.invalidateSize(),150);
+  }else{
+    sbEl.classList.add('mob-active');mapEl.classList.remove('mob-active');
+    if(tab==='trips')setTab('trips',true);
+    else if(tab==='fences')setTab('fences',true);
+    else if(tab==='alerts'){setTab('alerts',true);}
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   MAP — Leaflet only
+═══════════════════════════════════════════════════ */
+function initMap(){if(S.leafMap)return;loadLeaflet();}
+function loadLeaflet(){
+  const addCss=h=>{const l=document.createElement('link');l.rel='stylesheet';l.href=h;document.head.appendChild(l);};
+  addCss('https://unpkg.com/leaflet@1.9.4/dist/leaflet.css');
+  addCss('https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css');
+  const s1=document.createElement('script');s1.src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+  s1.onload=()=>{
+    const s2=document.createElement('script');s2.src='https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js';
+    s2.onload=initLeaflet;document.head.appendChild(s2);
+  };
+  document.head.appendChild(s1);
+}
+function initLeaflet(){
+  const isDark=document.documentElement.getAttribute('data-theme')!=='light';
+  const initTile=isDark?'dark':'osm';
+  // Zoom control on top-left; map type bar on top-right — no collision
+  S.leafMap=L.map('map',{center:[31.5,35.0],zoom:8,zoomControl:false});
+  L.control.zoom({position:'topleft'}).addTo(S.leafMap);
+  S.leafLayer=L.tileLayer(L_TILES[initTile],{attribution:TILE_ATTR[initTile],maxZoom:18}).addTo(S.leafMap);
+  // Highlight active tile button
+  document.querySelectorAll('[id^="lt-"]').forEach(b=>b.classList.remove('active'));
+  const ab=document.getElementById('lt-'+initTile);if(ab)ab.classList.add('active');
+  document.getElementById('mapTypeBarL').style.display='flex';
+  document.getElementById('mapOverlay').style.display='flex';
+  // Draw
+  S.drawnItems=new L.FeatureGroup().addTo(S.leafMap);
+  S.leafDraw=new L.Control.Draw({
+    draw:{polygon:{shapeOptions:{color:'#ffb020',fillColor:'#ffb020',fillOpacity:.1,weight:2}},
+      rectangle:false,circle:false,circlemarker:false,marker:false,polyline:false},
+    edit:{featureGroup:S.drawnItems,remove:false}
+  });
+  S.leafMap.on(L.Draw.Event.CREATED,e=>{
+    S.pendingFenceLayer=e.layer;
+    S.pendingFenceCoords=e.layer.getLatLngs()[0].map(p=>[p.lat,p.lng]);
+    S.drawnItems.addLayer(e.layer);
+    document.getElementById('drawHint').classList.remove('show');openM('mFence');
+  });
+  S.leafMap.on(L.Draw.Event.EDITED,e=>{
+    e.layers.eachLayer(layer=>{
+      const fId=Object.keys(S.fenceLayers).find(k=>S.fenceLayers[k]===layer);
+      if(fId){const f=allFences().find(x=>x.id===fId);if(f)f.coords=layer.getLatLngs()[0].map(p=>[p.lat,p.lng]);}
+    });toast('גבול עודכן','#00dfa8');
+  });
+  placeAll();toast('מפה מוכנה','#00dfa8');
+}
+function setLType(t){
+  if(!S.leafMap)return;
+  if(S.leafLayer)S.leafMap.removeLayer(S.leafLayer);
+  const url=L_TILES[t]||L_TILES.dark;
+  const attr=TILE_ATTR[t]||'';
+  S.leafLayer=L.tileLayer(url,{attribution:attr,maxZoom:18}).addTo(S.leafMap);
+  document.querySelectorAll('[id^="lt-"]').forEach(b=>b.classList.remove('active'));
+  const ab=document.getElementById('lt-'+t);if(ab)ab.classList.add('active');
+}
+
+/* ═══════════════════════════════════════════════════
+   MARKERS
+═══════════════════════════════════════════════════ */
+function placeAll(){allGroups().forEach(g=>{if(g.lat)updateMarker(g);});allFences().forEach(f=>addFenceLayer(f));}
+function updateMarker(g){
+  if(!g.lat||!S.leafMap)return;
+  const cls=g.isEmergency?'sos':g.status==='active'?'active':'ended';
+  const sz=cls==='sos'?22:16;
+  const icon=L.divIcon({html:`<div class="cm ${cls}" style="width:${sz}px;height:${sz}px"></div>`,className:'',iconSize:[sz,sz],iconAnchor:[sz/2,sz/2]});
+  const tooltipTxt=`${g.name} · ${g.guide}`;
+  if(S.markers[g.id]){
+    S.markers[g.id].setLatLng([g.lat,g.lng]);S.markers[g.id].setIcon(icon);
+  }else{
+    const m=L.marker([g.lat,g.lng],{icon})
+      .addTo(S.leafMap)
+      .bindTooltip(tooltipTxt,{permanent:false,sticky:false,direction:'top',offset:[0,-8],opacity:.95});
+    m.on('click',()=>focusGrp(g.id));
+    S.markers[g.id]=m;
+  }
+}
+function removeMarker(id){if(S.markers[id]){S.leafMap?.removeLayer(S.markers[id]);delete S.markers[id];}}
+function addFenceLayer(f){
+  if(!S.leafMap)return;
+  const c=FENCE_COLORS[f.type]||'#00dfa8';
+  const poly=L.polygon(f.coords,{color:c,fillColor:c,fillOpacity:.1,weight:2,dashArray:'6 4'})
+    .addTo(S.leafMap)
+    .bindTooltip(f.name,{permanent:false,sticky:true,direction:'center',opacity:.9});
+  S.fenceLayers[f.id]=poly;
+}
+function removeFenceLayer(id){if(S.fenceLayers[id]){S.leafMap?.removeLayer(S.fenceLayers[id]);delete S.fenceLayers[id];}}
+function focusGrp(id){
+  const g=findGrp(id);if(!g?.lat)return;
+  S.leafMap?.setView([g.lat,g.lng],14,{animate:true});
+}
+function panToTrip(tripId){
+  const t=S.trips.find(x=>x.id===tripId);if(!t)return;
+  const pts=t.groups.filter(g=>g.lat).map(g=>[g.lat,g.lng]);
+  (t.fences||[]).forEach(f=>f.coords.forEach(c=>pts.push(c)));
+  if(!pts.length)return;
+  S.leafMap?.fitBounds(pts,{padding:[40,40]});
+}
+function panToFence(fId){
+  if(S.fenceLayers[fId])S.leafMap?.fitBounds(S.fenceLayers[fId].getBounds(),{padding:[40,40]});
+}
+function jumpToSOS(grpId){
+  // On mobile: switch to map tab. On desktop: just pan.
+  if(window.innerWidth<=768){setMobTab('map');}
+  setTimeout(()=>focusGrp(grpId),100);
+}
+function refreshPills(){
+  const active=allGroups().filter(g=>g.status==='active'&&g.lat);
+  const sos=allGroups().filter(g=>g.isEmergency);
+  const pn=document.getElementById('pillActiveN');if(pn)pn.textContent=active.length;
+  const sp=document.getElementById('pillSOS');if(sp)sp.style.display=sos.length?'flex':'none';
+  const sn=document.getElementById('pillSOSN');if(sn)sn.textContent=sos.length;
+}
+
+/* ═══════════════════════════════════════════════════
+   FENCES
+═══════════════════════════════════════════════════ */
+function allFences(){return S.trips.flatMap(t=>t.fences||[]);}
+function startFenceDraw(tripId){
+  if(S.role!=='admin')return;
+  S.pendingFenceTripId=tripId;
+  if(!S.leafMap){toast('מפה לא מוכנה','#ff3355');return;}
+  setMobTab('map');
+  document.getElementById('drawHint').classList.add('show');
+  new L.Draw.Polygon(S.leafMap,S.leafDraw.options.draw.polygon).enable();
+}
+function cancelFence(){
+  S.pendingFenceCoords=null;
+  if(S.pendingFenceLayer){S.drawnItems?.removeLayer(S.pendingFenceLayer);S.pendingFenceLayer=null;}
+  closeM('mFence');
+}
+function confirmFence(){
+  const name=document.getElementById('fName').value.trim();
+  const type=document.getElementById('fType').value;
+  if(!name){toast('הזן שם לאזור','#ff3355');return;}
+  if(!S.pendingFenceCoords){toast('לא צויר גבול','#ff3355');return;}
+  const trip=S.trips.find(x=>x.id===S.pendingFenceTripId);
+  if(!trip){toast('טיול לא נמצא','#ff3355');return;}
+  const fence={id:uid(),name,type,coords:S.pendingFenceCoords};
+  if(!trip.fences)trip.fences=[];
+  trip.fences.push(fence);
+  addFenceLayer(fence);
+  S.pendingFenceCoords=null;S.pendingFenceLayer=null;
+  closeM('mFence');renderSidebar();toast(`גבול "${name}" נוסף`,'#00dfa8');
+}
+function toggleEditFence(fId){
+  if(S.editingFenceId===fId){
+    if(S.editControl){S.editControl.save();S.editControl.disable();S.editControl=null;}
+    S.editingFenceId=null;
+  }else{
+    if(S.editControl){S.editControl.disable();S.editControl=null;}
+    S.editingFenceId=fId;
+    const layer=S.fenceLayers[fId];
+    if(layer&&S.leafMap){
+      S.editControl=new L.EditToolbar.Edit(S.leafMap,{featureGroup:S.drawnItems});
+      S.drawnItems.addLayer(layer);S.editControl.enable();
+    }
+  }
+}
+function deleteFence(tripId,fId){
+  confirm2('מחק גבול?','לא ניתן לבטל.',()=>{
+    const t=S.trips.find(x=>x.id===tripId);if(!t)return;
+    t.fences=(t.fences||[]).filter(f=>f.id!==fId);
+    removeFenceLayer(fId);renderSidebar();toast('גבול נמחק','#607d96');
+  });
+}
+
+/* ═══════════════════════════════════════════════════
+   TRIP CRUD
+═══════════════════════════════════════════════════ */
+function openNewTrip(){
+  if(S.role!=='admin')return;
+  document.getElementById('mTripName').value='';document.getElementById('mTripCode').value='';
+  openM('mTrip');setTimeout(()=>document.getElementById('mTripName').focus(),100);
+}
+function createTrip(){
+  const name=document.getElementById('mTripName').value.trim();
+  let code=(document.getElementById('mTripCode').value.trim().toUpperCase()||'').slice(0,6)||genCode();
+  if(!name){toast('יש להזין שם','#ff3355');return;}
+  if(S.trips.find(t=>t.code===code)){toast('קוד כבר בשימוש','#ff3355');return;}
+  S.trips.push({id:uid(),name,code,status:'active',groups:[],fences:[],pending:[]});
+  closeM('mTrip');renderSidebar();toast(`🗺️ "${name}" נפתח | קוד: ${code}`,'#00dfa8');
+}
+function genCode(){const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}
+function confirmCloseTrip(id){
+  const t=S.trips.find(x=>x.id===id);if(!t)return;
+  confirm2(`סגור "${t.name}"?`,`${t.groups.length} קבוצות יסומנו כהסתיים.`,()=>{
+    t.status='ended';t.groups.forEach(g=>{g.status='ended';g.lat=null;g.lng=null;g.isEmergency=false;removeMarker(g.id);});
+    t.pending=[];checkSiren();renderSidebar();refreshPills();toast(`"${t.name}" נסגר`,'#607d96');
+  });
+}
+function confirmDeleteTrip(id){
+  const t=S.trips.find(x=>x.id===id);if(!t)return;
+  confirm2(`מחק "${t.name}" לצמיתות?`,'פעולה בלתי הפיכה.',()=>{
+    t.groups.forEach(g=>removeMarker(g.id));(t.fences||[]).forEach(f=>removeFenceLayer(f.id));
+    S.trips=S.trips.filter(x=>x.id!==id);renderSidebar();refreshPills();toast('טיול נמחק','#ff3355');
+  });
+}
+
+/* ═══════════════════════════════════════════════════
+   GROUP CRUD
+═══════════════════════════════════════════════════ */
+let _addGTripId=null;
+function openAddGrp(tripId){
+  if(S.role!=='admin')return;_addGTripId=tripId;
+  document.getElementById('mGrpName').value='';document.getElementById('mGuide').value='';
+  openM('mGroup');setTimeout(()=>document.getElementById('mGrpName').focus(),100);
+}
+function createGroup(){
+  const name=document.getElementById('mGrpName').value.trim(),guide=document.getElementById('mGuide').value.trim();
+  if(!name||!guide){toast('יש למלא הכל','#ff3355');return;}
+  const t=S.trips.find(x=>x.id===_addGTripId);if(!t)return;
+  t.groups.push({id:uid(),name,guide,status:'active',battery:85+Math.floor(Math.random()*13),
+    signal:'LTE',lastSeen:null,lat:null,lng:null,isEmergency:false,trackInterval:'live',inbox:[]});
+  closeM('mGroup');renderSidebar();toast(`קבוצה "${name}" נוספה`,'#00dfa8');
+}
+function confirmRemoveGrp(tripId,grpId){
+  const g=findGrp(grpId);if(!g)return;
+  confirm2(`הסר "${g.name}"?`,'',()=>{
+    const t=S.trips.find(x=>x.id===tripId);if(!t)return;
+    removeMarker(grpId);t.groups=t.groups.filter(x=>x.id!==grpId);
+    if(grpId===S.gGrpId){S.gGrpId=null;if(S.isTracking)stopTracking();}
+    checkSiren();renderSidebar();refreshPills();toast(`"${g.name}" הוסרה`,'#ff3355');
+  });
+}
+function setGrpInterval(grpId,val){
+  if(S.role!=='admin')return;const g=findGrp(grpId);if(!g)return;
+  g.trackInterval=val;
+  if(grpId===S.gGrpId&&S.isTracking){clearInterval(S.locationInt);scheduleLocation(val);}
+}
+function setAllGrpInterval(tripId,val){
+  const t=S.trips.find(x=>x.id===tripId);if(!t)return;
+  t.groups.forEach(g=>{g.trackInterval=val;if(g.id===S.gGrpId&&S.isTracking)scheduleLocation(val);});
+  renderSidebar();toast('תדירות עודכנה לכל הקבוצות','#00dfa8');
+}
+function pingGrp(grpId){
+  const g=findGrp(grpId);if(!g)return;
+  g.lastSeen=Date.now();
+  if(g.lat){g.lat+=(Math.random()-.5)*.0007;g.lng+=(Math.random()-.5)*.0007;}
+  g.battery=Math.max(1,(g.battery||85)-1);
+  updateMarker(g);renderSidebar();focusGrp(grpId);toast(`📡 מיקום מ"${g.name}"`,'#ffb020');
+}
+function ackSOS(grpId){
+  const g=findGrp(grpId);if(!g)return;
+  confirm2(`אשר SOS של "${g.name}"?`,'הקבוצה תסומן כבטוחה.',()=>{
+    g.isEmergency=false;updateMarker(g);checkSiren();
+    // Remove the original SOS alert for this group (it's resolved)
+    S.alerts=S.alerts.filter(a=>!(a.type==='sos'&&a.grpId===grpId));
+    addAlert({type:'ack',message:`✅ SOS של "${g.name}" אושר`,ts:Date.now()});
+    renderSidebar();refreshPills();toast('✅ SOS אושר','#00dfa8');
+  });
+}
+
+/* ═══════════════════════════════════════════════════
+   JOIN — APPROVE / REJECT
+═══════════════════════════════════════════════════ */
+function approveGroup(tripId,pendingId){
+  if(S.role!=='admin'){toast('רק מנהל יכול לאשר','#ff3355');return;}
+  const trip=S.trips.find(t=>t.id===tripId);if(!trip)return;
+  const pend=(trip.pending||[]).find(p=>p.id===pendingId);if(!pend)return;
+  const grp={id:uid(),pendingId,name:pend.name,guide:pend.guide,
+    personalCode:pend.personalCode||null,
+    status:'active',battery:90,signal:'LTE',lastSeen:null,lat:null,lng:null,
+    isEmergency:false,trackInterval:'live',inbox:[]};
+  trip.groups.push(grp);
+  trip.pending=(trip.pending||[]).filter(p=>p.id!==pendingId);
+  // Mark alert as handled
+  const a=S.alerts.find(x=>x.pendingId===pendingId);
+  if(a){a.message=a.message.replace('⏳','✅').replace('ממתין','אושר');a.pendingId=null;}
+  renderSidebar();toast(`✅ "${pend.name}" אושרה`,'#00dfa8');
+}
+function rejectGroup(tripId,pendingId){
+  if(S.role!=='admin'){toast('רק מנהל יכול לדחות','#ff3355');return;}
+  const trip=S.trips.find(t=>t.id===tripId);if(!trip)return;
+  const pend=(trip.pending||[]).find(p=>p.id===pendingId);if(!pend)return;
+  trip.pending=(trip.pending||[]).filter(p=>p.id!==pendingId);
+  const a=S.alerts.find(x=>x.pendingId===pendingId);
+  if(a){a.message=a.message.replace('⏳','✕');a.pendingId=null;}
+  renderSidebar();toast(`"${pend.name}" נדחתה`,'#ff3355');
+}
+
+/* ═══════════════════════════════════════════════════
+   MESSAGING
+═══════════════════════════════════════════════════ */
+function openMsg(tripId){
+  const sel=document.getElementById('msgTarget');
+  sel.innerHTML='<option value="all">כל הקבוצות</option>';
+  S.trips.filter(t=>t.status==='active').forEach(t=>{
+    sel.innerHTML+=`<option value="trip:${t.id}">כל "${t.name}"</option>`;
+    t.groups.forEach(g=>{sel.innerHTML+=`<option value="grp:${g.id}">${g.name} · ${g.guide}</option>`;});
+  });
+  if(tripId)sel.value=`trip:${tripId}`;
+  document.getElementById('msgText').value='';openM('mMsg');
+}
+function sendMsg(){
+  const target=document.getElementById('msgTarget').value;
+  const text=document.getElementById('msgText').value.trim();
+  if(!text){toast('הזן הודעה','#ff3355');return;}
+  let recs=[];
+  if(target==='all')recs=allGroups().filter(g=>g.status==='active');
+  else if(target.startsWith('trip:')){const t=S.trips.find(x=>x.id===target.slice(5));recs=t?.groups||[];}
+  else if(target.startsWith('grp:')){const g=findGrp(target.slice(4));if(g)recs=[g];}
+  const sender=S.role==='admin'?'מנהל':'רכז';
+  const msgId=uid(),ts=Date.now();
+  // Push to each group inbox
+  recs.forEach(g=>{
+    if(!g.inbox)g.inbox=[];
+    g.inbox.push({id:msgId,text,from:sender,ts,replies:[]});
+  });
+  // If guide is one of the recipients — push to guide inbox immediately
+  if(S.gGrpId&&recs.find(g=>g.id===S.gGrpId)){
+    pushToGuideInbox({id:msgId,text,from:sender,ts,replies:[]});
+  }
+  const names=recs.map(g=>g.name).join(', ');
+  addAlert({type:'msg',message:`💬 "${text}" → ${names||'—'}`,ts});
+  closeM('mMsg');toast(`הודעה נשלחה ל-${recs.length} קבוצות`,'#4d8fff');
+}
+
+/* ═══════════════════════════════════════════════════
+   SIDEBAR / ALERTS
+═══════════════════════════════════════════════════ */
+function setTab(t,fromMob){
+  S.tab=t;
+  ['trips','fences','alerts'].forEach(x=>{
+    const el=document.getElementById('tab-'+x);if(el)el.classList.toggle('active',x===t);
+  });
+  if(t==='alerts'){
+    document.getElementById('alertDot')?.classList.remove('show');
+    document.getElementById('mobAlertDot')?.classList.remove('show');
+  }
+  renderSidebar();
+}
+function renderSidebar(){
+  const b=document.getElementById('sbBody');if(!b)return;
+  if(S.tab==='trips')b.innerHTML=buildTrips();
+  else if(S.tab==='fences')b.innerHTML=buildFences();
+  else b.innerHTML=buildAlerts();
+}
+
+function buildTrips(){
+  const isAdmin=S.role==='admin';
+  let h=`<div class="sh"><span class="sh-lbl">טיולים</span>${isAdmin?`<button class="sh-add" onclick="openNewTrip()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>`:''}</div>`;
+  if(!S.trips.length)return h+`<div class="empty">אין טיולים.${isAdmin?'<br>לחץ + להוספת טיול.':''}</div>`;
+  const active=S.trips.filter(t=>t.status!=='ended'),ended=S.trips.filter(t=>t.status==='ended');
+  active.forEach(t=>{h+=tripCard(t,false);});
+  if(ended.length){h+=`<div class="sh" style="margin-top:8px"><span class="sh-lbl">נסגרו</span></div>`;ended.forEach(t=>{h+=tripCard(t,true);});}
+  return h;
+}
+function tripCard(trip,isEnded){
+  const isAdmin=S.role==='admin';
+  const hasSOS=trip.groups.some(g=>g.isEmergency);
+  const pending=trip.pending||[];
+  const fences=trip.fences||[];
+  const FCOL={safe:'#00dfa8',danger:'#ff3355',warn:'#ffb020'};
+  const FLBL={safe:'מותר',danger:'אסור',warn:'אזהרה'};
+  let h=`<div class="trip-card ${hasSOS?'has-sos':''} ${isEnded?'ended-card':''}">
+    <div class="tc-top">
+      <div><div class="tc-name">${trip.name}</div><div class="tc-code">${trip.code}</div></div>
+      <div class="tc-right">
+        <span class="badge ${hasSOS?'sos':isEnded?'off':'on'}">${hasSOS?'🚨':isEnded?'נסגר':'פעיל'}</span>
+        ${!isEnded?`<button class="ibtn" onclick="openMsg('${trip.id}')" title="שלח הודעה"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>`:''}
+      </div>
+    </div>`;
+  // Pending
+  if(isAdmin&&pending.length){
+    h+=`<div class="pending-section">
+      <div class="pending-header"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span class="pending-label">ממתינות (${pending.length})</span></div>`;
+    pending.forEach(p=>{
+      h+=`<div class="pending-row">
+        <div class="pr-info"><div class="pr-name">${p.name}</div><div class="pr-sub">${p.guide}</div></div>
+        <div class="pr-btns">
+          <button class="sb g" onclick="approveGroup('${trip.id}','${p.id}')" title="אשר"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></button>
+          <button class="sb r" onclick="rejectGroup('${trip.id}','${p.id}')" title="דחה"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+      </div>`;
+    });
+    h+=`</div>`;
+  }
+  // Groups
+  if(trip.groups.length){
+    h+=`<div class="groups-wrap">`;
+    trip.groups.forEach(g=>{
+      const diff=g.lastSeen?Math.floor((Date.now()-g.lastSeen)/60000):null;
+      const lt=diff===null?'ממתין':diff===0?'עכשיו':`${diff} דק׳`;
+      const bc=!g.battery?'hi':g.battery>50?'hi':g.battery>20?'mid':'lo';
+      h+=`<div class="gr ${g.isEmergency?'sos-gr':''}">
+        <div class="gr-info">
+          <div class="gr-name">${g.isEmergency?'🚨 ':''}${g.name}</div>
+          <div class="gr-sub">
+            <span>${g.guide}</span><span>·</span><span>${lt}</span>
+            ${g.battery?`<span>·</span><div class="gr-batt ${bc}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="16" height="10" rx="1"/><path d="M22 11v2"/></svg>${Math.round(g.battery)}%</div>`:''}
+          </div>
+        </div>
+        <div class="gr-controls">
+          ${isAdmin&&!isEnded?`<select class="isel" onchange="setGrpInterval('${g.id}',this.value)" onclick="event.stopPropagation()">${Object.entries(INTERVALS).map(([k,v])=>`<option value="${k}" ${g.trackInterval===k?'selected':''}>${v.label}</option>`).join('')}</select>`:''}
+          ${!isEnded?`
+            <button class="sb y" title="עדכן מיקום" onclick="pingGrp('${g.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></button>
+            <button class="sb b" title="מרכז מפה" onclick="focusGrp('${g.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></button>
+            ${isAdmin?`<button class="sb r" title="הסר" onclick="confirmRemoveGrp('${trip.id}','${g.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>`:''}
+          `:''}
+          ${g.isEmergency?`<button class="sb ack" onclick="ackSOS('${g.id}')">✓ SOS</button>`:''}
+        </div>
+      </div>`;
+    });
+    h+=`</div>`;
+    if(isAdmin&&!isEnded&&trip.groups.length>1){
+      const opts=Object.entries(INTERVALS).map(([k,v])=>`<option value="${k}">${v.label}</option>`).join('');
+      h+=`<div class="bulk-row"><label>כל הקבוצות:</label><select class="isel" id="bulk-${trip.id}">${opts}</select><button class="bulk-apply" onclick="setAllGrpInterval('${trip.id}',document.getElementById('bulk-${trip.id}').value)">החל</button></div>`;
+    }
+  }else if(!isEnded&&!pending.length){
+    h+=`<div style="font-size:.67rem;color:var(--td);padding:4px 2px">אין קבוצות עדיין.</div>`;
+  }
+  // Fences
+  if(!isEnded){
+    h+=`<div class="trip-fences">
+      <div class="tf-head">
+        <span class="tf-lbl">גבולות (${fences.length})</span>
+        ${isAdmin?`<button class="sh-add" style="width:20px;height:20px" onclick="startFenceDraw('${trip.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>`:''}
+      </div>`;
+    if(!fences.length){h+=`<div style="font-size:.62rem;color:var(--td)">אין גבולות.</div>`;}
+    else{fences.forEach(f=>{
+      const c=FCOL[f.type]||'#00dfa8',l=FLBL[f.type]||f.type,isEditing=S.editingFenceId===f.id;
+      h+=`<div class="fence-pill"><div class="fc-dot" style="background:${c}"></div><span>${f.name}</span><span style="font-size:.55rem;color:var(--td)">· ${l}</span>
+        <div style="display:flex;gap:3px;margin-right:auto">
+          <button class="sb b" style="width:20px;height:20px" onclick="panToFence('${f.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/></svg></button>
+          ${isAdmin?`<button class="sb ${isEditing?'g':'o'}" style="width:20px;height:20px" onclick="S.editingFenceId=S.editingFenceId==='${f.id}'?null:'${f.id}';toggleEditFence('${f.id}');renderSidebar()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${isEditing?'<polyline points="20 6 9 17 4 12"/>':'<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>'}</svg></button>
+          <button class="sb r" style="width:20px;height:20px" onclick="deleteFence('${trip.id}','${f.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg></button>`:''}
+        </div>
+      </div>`;
+    });}
+    h+=`</div>
+    <div class="tc-actions">
+      ${isAdmin?`<button class="ta-btn add" onclick="openAddGrp('${trip.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>קבוצה</button>`:''}
+      <button class="ta-btn msg" onclick="openMsg('${trip.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>הודעה</button>
+      <button class="ta-btn fit" onclick="panToTrip('${trip.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>הכל</button>
+      ${isAdmin?`<button class="ta-btn cls" onclick="confirmCloseTrip('${trip.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="6" width="12" height="12"/></svg>סגור</button>`:''}
+    </div>`;
+  }else if(isAdmin){
+    h+=`<div class="closed-acts"><button class="ta-btn del" onclick="confirmDeleteTrip('${trip.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg>מחק לצמיתות</button></div>`;
+  }
+  return h+'</div>';
+}
+
+function buildFences(){
+  const isAdmin=S.role==='admin';
+  const FCOL={safe:'#00dfa8',danger:'#ff3355',warn:'#ffb020'};
+  const FLBL={safe:'אזור מותר',danger:'אזור אסור',warn:'אזור אזהרה'};
+  const all=allFences();
+  let h=`<div class="sh"><span class="sh-lbl">כל הגבולות</span></div>`;
+  if(!all.length)return h+`<div class="empty">אין גבולות גזרה.<br>הוסף מלשונית טיולים.</div>`;
+  all.forEach(f=>{
+    const trip=S.trips.find(t=>(t.fences||[]).some(x=>x.id===f.id));
+    h+=`<div class="fence-card">
+      <div style="display:flex;align-items:center;gap:7px">
+        <div class="fc-dot" style="background:${FCOL[f.type]||'#00dfa8'}"></div>
+        <div><div class="fc-n">${f.name}</div><div class="fc-s">${FLBL[f.type]||''} · ${trip?.name||'—'}</div></div>
+      </div>
+      <div style="display:flex;gap:4px">
+        <button class="sb b" onclick="panToFence('${f.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></button>
+        ${isAdmin&&trip?`<button class="sb r" onclick="deleteFence('${trip.id}','${f.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg></button>`:''}
+      </div>
+    </div>`;
+  });
+  return h;
+}
+
+function buildAlerts(){
+  const icons={
+    sos:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+    breach:'<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>',
+    ack:'<polyline points="20 6 9 17 4 12"/>',
+    msg:'<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>'
+  };
+  const lbl={sos:'🚨 SOS',breach:'⚠️ חריגה',ack:'✅ SOS אושר',msg:'💬 הודעה'};
+  const col={sos:'currentColor',breach:'currentColor',ack:'var(--g)',msg:'var(--b)'};
+  const isAdmin=S.role==='admin';
+  const hasAlerts=S.alerts.length>0;
+
+  let h=`<div class="sh" style="margin-bottom:6px">
+    <span class="sh-lbl">התראות (${S.alerts.length})</span>
+    ${hasAlerts?`<button onclick="deleteAllAlerts()"
+      style="font-size:.58rem;font-weight:700;padding:2px 7px;border-radius:5px;
+      border:1px solid var(--rd2);background:var(--rd);color:var(--r);cursor:pointer">
+      🗑 מחק הכל</button>`:''}
+  </div>`;
+
+  if(!hasAlerts)return h+`<div class="empty">אין התראות.</div>`;
+
+  h+=S.alerts.slice().reverse().map((a,ri)=>{
+    const idx=S.alerts.length-1-ri;
+    const timeStr=new Date(a.ts).toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'});
+
+    // --- SOS: can jump to location on map ---
+    const isSOS=a.type==='sos'&&a.grpId;
+
+    // --- JOIN REQUEST: show approve/reject if still pending ---
+    const joinData=(()=>{
+      if(!a.pendingId)return null;
+      for(const trip of S.trips){
+        const p=(trip.pending||[]).find(p=>p.id===a.pendingId);
+        if(p)return{trip,p};
+      }
+      return null;
+    })();
+
+    // --- MSG: show reply button (admin sends reply back as alert) ---
+    const isMsg=a.type==='msg'&&!a.pendingId&&isAdmin;
+
+    // Build action row
+    let actions='';
+    if(isSOS&&isAdmin){
+      // Jump to SOS location on map
+      actions+=`<button onclick="jumpToSOS('${a.grpId}')"
+        style="display:flex;align-items:center;gap:4px;padding:4px 9px;border-radius:6px;
+        border:1px solid var(--rd2);background:var(--rd);color:var(--r);
+        font-size:.64rem;font-weight:800;cursor:pointer;margin-top:6px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        קפוץ למיקום
+      </button>`;
+    }
+    if(joinData&&isAdmin){
+      actions+=`<div style="display:flex;gap:6px;margin-top:7px">
+        <button onclick="approveGroup('${joinData.trip.id}','${joinData.p.id}')"
+          style="flex:1;padding:5px 0;border-radius:7px;border:1px solid var(--gd2);
+          background:var(--gd);color:var(--g);font-size:.68rem;font-weight:900;cursor:pointer">
+          ✓ אשר קבוצה
+        </button>
+        <button onclick="rejectGroup('${joinData.trip.id}','${joinData.p.id}')"
+          style="flex:1;padding:5px 0;border-radius:7px;border:1px solid var(--rd2);
+          background:var(--rd);color:var(--r);font-size:.68rem;font-weight:900;cursor:pointer">
+          ✕ דחה
+        </button>
+      </div>`;
+    }
+    if(isMsg){
+      actions+=`<button onclick="openAlertReply(${idx})"
+        style="display:flex;align-items:center;gap:4px;padding:4px 9px;border-radius:6px;
+        border:1px solid var(--bd2);background:var(--bd);color:var(--b);
+        font-size:.64rem;font-weight:800;cursor:pointer;margin-top:6px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11"><polyline points="9 17 4 12 9 7"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/></svg>
+        ענה לקבוצה
+      </button>`;
+    }
+
+    return `<div class="alert-item ${a.type}" id="ai-${idx}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="${col[a.type]||'currentColor'}" stroke-width="2"
+        width="13" height="13" style="flex-shrink:0;margin-top:2px">${icons[a.type]||icons.sos}</svg>
+      <div style="flex:1;min-width:0">
+        <div class="ai-lbl">${lbl[a.type]||a.type}</div>
+        <div class="ai-msg">${a.message}</div>
+        <div class="ai-time">${timeStr}</div>
+        ${actions}
+      </div>
+      <button class="alert-del" title="מחק" onclick="deleteAlert(${idx})">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/>
+        </svg>
+      </button>
+    </div>`;
+  }).join('');
+  return h;
+}
+
+/* Reply to a message alert — opens dedicated reply modal */
+let _replyAlertIdx=null;
+let _replyGrpId=null;
+function openAlertReply(alertIdx){
+  const a=S.alerts[alertIdx];
+  if(!a)return;
+  _replyAlertIdx=alertIdx;
+  // Try to extract group from the alert message
+  // alerts from groups have grpId, or we target all
+  const grp=a.grpId?findGrp(a.grpId):null;
+  _replyGrpId=a.grpId||null;
+  document.getElementById('mReplyTitle').textContent='↩ תגובה לקבוצה';
+  document.getElementById('mReplyTarget').textContent=grp?`${grp.name} (${grp.guide})`:'כל הקבוצות שקיבלו את ההודעה';
+  document.getElementById('mReplyText').value='';
+  openM('mReply');
+  setTimeout(()=>document.getElementById('mReplyText').focus(),100);
+}
+function sendAlertReply(){
+  const text=document.getElementById('mReplyText').value.trim();
+  if(!text){toast('הזן תגובה','#ff3355');return;}
+  // Send as a message — to specific group or all
+  let recs=[];
+  if(_replyGrpId){
+    const g=findGrp(_replyGrpId);if(g)recs=[g];
+  }else{
+    recs=allGroups().filter(g=>g.status==='active');
+  }
+  const sender=S.role==='admin'?'מנהל':'רכז';
+  const msgId=uid(),ts=Date.now();
+  recs.forEach(g=>{
+    if(!g.inbox)g.inbox=[];
+    g.inbox.push({id:msgId,text,from:sender,ts,replies:[]});
+  });
+  if(S.gGrpId&&recs.find(g=>g.id===S.gGrpId)){
+    pushToGuideInbox({id:msgId,text,from:sender,ts,replies:[]});
+  }
+  const names=recs.map(g=>g.name).join(', ');
+  addAlert({type:'msg',message:`↩ "${text}" → ${names||'—'}`,ts});
+  closeM('mReply');toast(`תגובה נשלחה ל-${recs.length} קבוצות`,'#4d8fff');
+}
+
+function addAlert(a){
+  S.alerts.push(a);
+  if(!a.silent&&S.tab!=='alerts'){
+    document.getElementById('alertDot')?.classList.add('show');
+    document.getElementById('mobAlertDot')?.classList.add('show');
+  }
+  if(S.tab==='alerts')renderSidebar();
+}
+function deleteAlert(idx){
+  S.alerts.splice(idx,1);renderSidebar();
+}
+function deleteAllAlerts(){
+  confirm2(`מחק את כל ${S.alerts.length} ההתראות?`,'לא ניתן לבטל.',()=>{
+    S.alerts=[];renderSidebar();toast('כל ההתראות נמחקו','#607d96');
+  });
+}
+
+/* ═══════════════════════════════════════════════════
+   SIREN
+═══════════════════════════════════════════════════ */
+function startSiren(){
+  if(S.sirenInt)return;
+  try{
+    if(!S.audioCtx)S.audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+    const play=()=>{try{
+      const o=S.audioCtx.createOscillator(),g=S.audioCtx.createGain();
+      o.connect(g);g.connect(S.audioCtx.destination);
+      const t=S.audioCtx.currentTime;
+      o.frequency.setValueAtTime(520,t);o.frequency.exponentialRampToValueAtTime(1040,t+.4);
+      g.gain.setValueAtTime(.07,t);g.gain.exponentialRampToValueAtTime(.001,t+.7);
+      o.start(t);o.stop(t+.7);
+    }catch(e){}};
+    play();S.sirenInt=setInterval(play,1400);
+  }catch(e){}
+}
+function stopSiren(){clearInterval(S.sirenInt);S.sirenInt=null;}
+function checkSiren(){if(allGroups().some(g=>g.isEmergency))startSiren();else stopSiren();}
+
+/* ═══════════════════════════════════════════════════
+   GUIDE — JOIN FLOW
+═══════════════════════════════════════════════════ */
+function resetGuideScreen(){
+  // Just shows step 1; group may have pre-filled trip code already
+  document.getElementById('joinStep1').style.display='flex';
+  document.getElementById('joinStep2').style.display='none';
+  document.getElementById('joinNewFields').style.display='none';
+  document.getElementById('joinExistFields').style.display='none';
+  document.getElementById('gCur').style.display='none';
+  document.getElementById('gJoinStatus').style.display='none';
+  document.getElementById('leaveTripBtn').style.display='none';
+  document.getElementById('guideInbox').style.display='none';
+  const sess=loadSession();
+  if(sess){
+    const el=document.getElementById('gTripCode');
+    if(el&&!el.value)el.value=sess.code||'';
+  }
+  renderGBtns();renderGuide();initBattery();
+}
+function lookupTrip(){
+  const code=document.getElementById('gTripCode').value.trim().toUpperCase();
+  const errEl=document.getElementById('tripLookupErr');
+  errEl.style.display='none';
+  if(!code){errEl.textContent='יש להזין קוד טיול';errEl.style.display='block';return;}
+  const trip=S.trips.find(t=>t.code===code&&t.status==='active');
+  if(!trip){
+    errEl.textContent=`קוד "${code}" לא נמצא — בדוק עם המנהל`;errEl.style.display='block';
+    setTimeout(()=>{errEl.style.display='none';},4000);return;
+  }
+  S._lookupTrip=trip;
+  document.getElementById('joinTripFound').textContent=`✅ נמצא: "${trip.name}"`;
+  document.getElementById('joinStep1').style.display='none';
+  document.getElementById('joinStep2').style.display='flex';
+  document.getElementById('joinStep2').style.flexDirection='column';
+  document.getElementById('joinStep2').style.gap='7px';
+  // Auto-fill from session if code matches
+  const sess=loadSession();
+  if(sess&&sess.code===code){
+    const gn=document.getElementById('gGrpNameIn'),gi=document.getElementById('gGuideIn'),gc=document.getElementById('gPersonalCode');
+    if(gn)gn.value=sess.grpName||'';
+    if(gi)gi.value=sess.guideName||'';
+    if(gc)gc.value=sess.pCode||'';
+  }
+}
+function backToStep1(){
+  document.getElementById('joinStep1').style.display='flex';
+  document.getElementById('joinStep2').style.display='none';
+  document.getElementById('joinNewFields').style.display='none';
+  document.getElementById('joinExistFields').style.display='none';
+}
+function selectJoinMode(mode){
+  document.getElementById('joinNewFields').style.display=mode==='new'?'flex':'none';
+  document.getElementById('joinExistFields').style.display=mode==='exist'?'flex':'none';
+  if(mode==='new'){document.getElementById('joinNewFields').style.flexDirection='column';document.getElementById('joinNewFields').style.gap='7px';}
+  if(mode==='exist'){document.getElementById('joinExistFields').style.flexDirection='column';document.getElementById('joinExistFields').style.gap='7px';}
+  document.getElementById('btnJoinNew').style.background=mode==='new'?'var(--gd2)':'';
+  document.getElementById('btnJoinExist').style.background=mode==='exist'?'var(--gd2)':'';
+}
+function returnToGroup(){
+  const errEl=document.getElementById('existErr');errEl.style.display='none';
+  const code=document.getElementById('gTripCode').value.trim().toUpperCase();
+  const grpName=document.getElementById('gExistGrpName').value.trim();
+  const pCode=document.getElementById('gExistCode').value.trim();
+  if(!grpName||!pCode){errEl.textContent='יש למלא שם קבוצה וקוד אישי';errEl.style.display='block';return;}
+  const trip=S._lookupTrip||S.trips.find(t=>t.code===code&&t.status==='active');
+  if(!trip){errEl.textContent='הטיול לא נמצא';errEl.style.display='block';return;}
+  const grp=trip.groups.find(g=>g.name===grpName&&g.personalCode===pCode);
+  if(!grp){errEl.textContent='שם קבוצה או קוד אישי שגוי';errEl.style.display='block';return;}
+  // Re-enter
+  S.gTripId=trip.id;S.gGrpId=grp.id;S.gApproved=true;
+  document.getElementById('joinStep2').style.display='none';
+  document.getElementById('gTripName').textContent=trip.name;
+  document.getElementById('gGrpName').textContent=`${grp.name} · ${grp.guide}`;
+  document.getElementById('gCur').style.display='block';
+  document.getElementById('gBadge').textContent='מאושר';document.getElementById('gBadge').className='badge on';
+  document.getElementById('leaveTripBtn').style.display='flex';
+  document.getElementById('guideInbox').style.display='block';
+  saveSession(code,grp.name,grp.guide,pCode);
+  renderGuide();renderInbox();toast(`✅ ברוך השב, ${grp.name}!`,'#00dfa8');
+}
+function submitJoinRequest(){
+  const code=document.getElementById('gTripCode').value.trim().toUpperCase();
+  const grpName=document.getElementById('gGrpNameIn').value.trim();
+  const guide=document.getElementById('gGuideIn').value.trim();
+  const pCode=document.getElementById('gPersonalCode').value.trim();
+  if(!code||!grpName||!guide){toast('יש למלא שם קבוצה ושם מדריך','#ff3355');return;}
+  if(pCode&&!/^\d{4}$/.test(pCode)){toast('קוד אישי חייב להיות 4 ספרות','#ff3355');return;}
+  const trip=S._lookupTrip||S.trips.find(t=>t.code===code&&t.status==='active');
+  if(!trip){toast('קוד טיול לא קיים','#ff3355');return;}
+  if((trip.pending||[]).find(p=>p.name===grpName)||(trip.groups||[]).find(g=>g.name===grpName)){
+    toast(`קבוצה "${grpName}" כבר קיימת — השתמש ב"קבוצה קיימת"`,'#ff3355');return;}
+  saveSession(code,grpName,guide,pCode);
+  const pending={id:uid(),name:grpName,guide,personalCode:pCode||null,ts:Date.now()};
+  if(!trip.pending)trip.pending=[];
+  trip.pending.push(pending);
+  S.gTripId=trip.id;S.gPendingId=pending.id;
+  document.getElementById('joinStep2').style.display='none';
+  document.getElementById('gTripName').textContent=trip.name;
+  document.getElementById('gGrpName').textContent=`${grpName} · ${guide}`;
+  document.getElementById('gCur').style.display='block';
+  document.getElementById('gJoinStatus').textContent='⏳ ממתין לאישור המנהל...';
+  document.getElementById('gJoinStatus').style.display='block';
+  document.getElementById('gBadge').textContent='ממתין';document.getElementById('gBadge').className='badge pend';
+  // Silent alert (visible only to admin in sidebar, no red dot)
+  addAlert({type:'msg',message:`⏳ בקשת הצטרפות: "${grpName}" (${guide}) → "${trip.name}"`,ts:Date.now(),pendingId:pending.id,silent:true});
+  renderSidebar();
+  // Poll for approval
+  S.approvalPoll=setInterval(()=>{
+    const trip2=S.trips.find(t=>t.id===S.gTripId);
+    const approved=trip2?.groups.find(g=>g.pendingId===S.gPendingId);
+    if(approved){
+      clearInterval(S.approvalPoll);S.gGrpId=approved.id;S.gApproved=true;
+      document.getElementById('gJoinStatus').style.display='none';
+      document.getElementById('gBadge').textContent='מאושר';document.getElementById('gBadge').className='badge on';
+      document.getElementById('leaveTripBtn').style.display='flex';
+      document.getElementById('guideInbox').style.display='block';
+      renderGuide();renderInbox();toast('✅ אושרת! תוכל להתחיל שידור','#00dfa8');
+    }
+  },1000);
+}
+
+/* ═══════════════════════════════════════════════════
+   GUIDE — TRACKING & SOS
+═══════════════════════════════════════════════════ */
+function renderGuide(){
+  const trip=S.gTripId?S.trips.find(x=>x.id===S.gTripId):null;
+  const grp=S.gGrpId?findGrp(S.gGrpId):null;
+  if(grp){
+    document.getElementById('gTripName').textContent=trip?trip.name:'—';
+    document.getElementById('gGrpName').textContent=`${grp.name} · ${grp.guide}`;
+  }
+  const badge=document.getElementById('gBadge'),live=document.getElementById('gLiveInd');
+  if(S.isTracking){badge.textContent='פעיל';badge.className='badge on';live.style.display='flex';}
+  else if(S.gApproved){badge.textContent='מאושר';badge.className='badge on';live.style.display='none';}
+  document.getElementById('modeRow').style.display=S.isTracking?'flex':'none';
+  const sb=document.getElementById('sosBtnG');
+  if(S.isEmergency){
+    sb.className='sos-btn sent';
+    sb.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>🚨 SOS נשלח!';
+    sb.disabled=true;
+  }else{
+    sb.className='sos-btn';
+    sb.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>SOS — לחץ פעמיים לשליחה';
+    sb.disabled=false;
+  }
+  renderGBtns();renderModeTog();
+}
+function renderGBtns(){
+  const area=document.getElementById('gBtns');if(!area)return;
+  if(!S.gApproved&&!S.gGrpId){area.innerHTML='';return;}
+  if(!S.isTracking){
+    area.innerHTML=`<button class="big-start" onclick="startTracking()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>התחל מעקב</button>`;
+  }else{
+    area.innerHTML=`<button class="big-stop" onclick="stopTracking()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="6" width="12" height="12"/></svg>הפסק</button>`;
+  }
+}
+function renderModeTog(){
+  const btn=document.getElementById('modeTog'),hint=document.getElementById('modeHint');if(!btn)return;
+  if(S.burstMode){btn.className='mode-tog burst';btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> מצב מהיר';hint.textContent='GPS דיוק גבוה · 5 שניות.';}
+  else{btn.className='mode-tog';btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> מצב חסכוני';hint.textContent='תדירות לפי הגדרת המנהל.';}
+}
+function startTracking(){
+  if(!S.gGrpId){toast('ממתין לאישור מנהל','#ffb020');return;}
+  S.isTracking=true;S.uptimeStart=Date.now();startUptime();broadcastLocation();
+  const g=findGrp(S.gGrpId);scheduleLocation(g?.trackInterval||'live');
+  renderGuide();toast('שידור מיקום התחיל','#00dfa8');
+}
+function stopTracking(){
+  S.isTracking=false;S.burstMode=false;S.isEmergency=false;
+  clearInterval(S.locationInt);stopUptime();
+  const g=findGrp(S.gGrpId);if(g){g.lat=null;g.lng=null;}
+  removeMarker(S.gGrpId);renderGuide();refreshPills();toast('שידור הופסק','#ff3355');
+}
+function scheduleLocation(key){
+  clearInterval(S.locationInt);
+  const ms=S.burstMode?5000:(INTERVALS[key]?.ms||4000);
+  if(ms>0)S.locationInt=setInterval(broadcastLocation,ms);
+}
+function toggleBurst(){S.burstMode=!S.burstMode;if(S.isTracking){const g=findGrp(S.gGrpId);scheduleLocation(g?.trackInterval||'live');}renderModeTog();}
+
+// Double-tap SOS guard
+function triggerSOS(){
+  if(!S.isTracking){toast('התחל מעקב תחילה','#ffb020');return;}
+  if(S.isEmergency)return;
+  if(!_sosArmTimer){
+    // First tap — arm
+    const btn=document.getElementById('sosBtnG');
+    btn.className='sos-btn armed';
+    btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>⚠️ לחץ שוב לאישור!';
+    _sosArmTimer=setTimeout(()=>{_sosArmTimer=null;renderGuide();},3000);
+    return;
+  }
+  // Second tap — fire
+  clearTimeout(_sosArmTimer);_sosArmTimer=null;
+  S.isEmergency=true;S.burstMode=true;
+  const g=findGrp(S.gGrpId);if(g)g.isEmergency=true;
+  addAlert({type:'sos',message:`🚨 SOS מ"${g?.name||'—'}" — ${g?.guide||'—'}`,ts:Date.now(),grpId:S.gGrpId});
+  startSiren();scheduleLocation('live');renderGuide();toast('🚨 SOS נשלח!','#ff3355');
+}
+
+function broadcastLocation(){
+  if(!S.isTracking||!S.gGrpId)return;
+  const g=findGrp(S.gGrpId);if(!g)return;
+  if(!g.lat){g.lat=31.2+Math.random()*1.8;g.lng=34.8+Math.random()*1.8;}
+  const d=S.burstMode?.00012:.0007;
+  g.lat+=(Math.random()-.5)*d;g.lng+=(Math.random()-.5)*d;
+  if(!navigator.onLine){
+    S.offlineQueue.push({gid:S.gGrpId,lat:g.lat,lng:g.lng,ts:Date.now()});
+    return;
+  }
+  g.lastSeen=Date.now();g.battery=Math.max(1,(g.battery||85)-.03);
+  g.signal=navigator.connection?.effectiveType?.toUpperCase()||'LTE';g.status='active';
+  updateMarker(g);checkGeofences(g);refreshPills();
+  if(S.tab==='trips')renderSidebar();
+  const be=document.getElementById('gBatt');if(be)be.textContent=Math.round(g.battery||85)+'%';
+  const se=document.getElementById('gSig');if(se)se.textContent=g.signal||'LTE';
+  // Poll for inbox messages from group
+  pollGroupInbox();
+}
+
+/* ═══════════════════════════════════════════════════
+   GUIDE INBOX
+═══════════════════════════════════════════════════ */
+function pollGroupInbox(){
+  if(!S.gGrpId||!S.gApproved)return;
+  const grp=findGrp(S.gGrpId);if(!grp?.inbox)return;
+  const known=new Set(S.inbox.map(m=>m.id));
+  grp.inbox.filter(m=>!known.has(m.id)).forEach(m=>{
+    S.inbox.push({...m,read:false});
+    renderInbox();
+    const badge=document.getElementById('inboxBadge');
+    if(badge){badge.textContent=S.inbox.filter(x=>!x.read).length;badge.classList.add('show');}
+    toast(`📩 הודעה מ${m.from}: "${m.text.slice(0,25)}${m.text.length>25?'…':''}"`, '#4d8fff');
+  });
+}
+function pushToGuideInbox(msg){
+  S.inbox.push({...msg,read:false});
+  renderInbox();
+  const badge=document.getElementById('inboxBadge');
+  if(badge){badge.textContent=S.inbox.filter(x=>!x.read).length;badge.classList.add('show');}
+}
+function toggleInbox(){
+  S.inboxOpen=!S.inboxOpen;
+  const list=document.getElementById('inboxList');
+  const chev=document.getElementById('inboxChevron');
+  if(list)list.classList.toggle('open',S.inboxOpen);
+  if(chev)chev.style.transform=S.inboxOpen?'rotate(180deg)':'';
+  if(S.inboxOpen){
+    S.inbox.forEach(m=>m.read=true);
+    const badge=document.getElementById('inboxBadge');
+    if(badge)badge.classList.remove('show');
+    renderInbox();
+  }
+}
+function renderInbox(){
+  const list=document.getElementById('inboxList');if(!list)return;
+  if(!S.inbox.length){list.innerHTML=`<div style="padding:12px;font-size:.7rem;color:var(--td);text-align:center">אין הודעות עדיין.</div>`;return;}
+  list.innerHTML=S.inbox.slice().reverse().map(m=>{
+    const t=new Date(m.ts).toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'});
+    const replies=(m.replies||[]).map(r=>`<div class="g-reply-row">↩ ${r.text}<span>${new Date(r.ts).toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'})}</span></div>`).join('');
+    return `<div class="g-msg ${m.read?'':'unread'}">
+      <div class="g-msg-from">מ${m.from}</div>
+      <div class="g-msg-text">${m.text}</div>
+      <div class="g-msg-meta">
+        <div class="g-msg-time">${t}</div>
+        <button class="g-msg-reply-btn" onclick="openReply('${m.id}')">↩ ענה</button>
+      </div>
+      ${replies}
+    </div>`;
+  }).join('');
+}
+function openReply(msgId){
+  S.replyToMsgId=msgId;
+  const c=document.getElementById('inboxCompose');
+  if(c){c.classList.add('open');document.getElementById('inboxReplyTa')?.focus();}
+}
+function sendReply(){
+  const text=document.getElementById('inboxReplyTa')?.value.trim();
+  if(!text){toast('הקלד תשובה','#ffb020');return;}
+  const grp=findGrp(S.gGrpId);
+  const grpName=grp?grp.name:'מדריך';
+  const msg=S.inbox.find(m=>m.id===S.replyToMsgId);
+  if(msg){if(!msg.replies)msg.replies=[];msg.replies.push({text,ts:Date.now(),from:grpName});}
+  addAlert({type:'msg',message:`↩ תשובה מ"${grpName}": "${text}"`,ts:Date.now()});
+  document.getElementById('inboxReplyTa').value='';
+  document.getElementById('inboxCompose').classList.remove('open');
+  S.replyToMsgId=null;
+  renderInbox();toast('תשובה נשלחה','#4d8fff');
+}
+
+/* ═══════════════════════════════════════════════════
+   GEOFENCE CHECK
+═══════════════════════════════════════════════════ */
+function checkGeofences(grp){
+  if(!grp.lat)return;
+  allFences().forEach(f=>{
+    if(pip([grp.lat,grp.lng],f.coords)&&f.type==='danger'){
+      const msg=`"${grp.name}" בתוך אזור אסור "${f.name}"`;
+      if(!S.alerts.find(a=>a.message===msg&&Date.now()-a.ts<120000)){
+        addAlert({type:'breach',message:msg,ts:Date.now()});toast(`⚠️ ${msg}`,'#ffb020');
+      }
+    }
+  });
+}
+function pip(pt,poly){
+  if(!poly?.length)return false;const[y,x]=pt;let i=false;
+  for(let a=0,b=poly.length-1;a<poly.length;b=a++){const[ya,xa]=poly[a],[yb,xb]=poly[b];if(((ya>y)!==(yb>y))&&(x<(xb-xa)*(y-ya)/(yb-ya)+xa))i=!i;}return i;
+}
+
+/* ═══════════════════════════════════════════════════
+   UPTIME / BATTERY
+═══════════════════════════════════════════════════ */
+function startUptime(){clearInterval(S.uptimeInt);S.uptimeInt=setInterval(()=>{const s=Math.floor((Date.now()-S.uptimeStart)/1000),el=document.getElementById('gUp');if(el)el.textContent=`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;},1000);}
+function stopUptime(){clearInterval(S.uptimeInt);const el=document.getElementById('gUp');if(el)el.textContent='00:00';}
+function initBattery(){
+  navigator.getBattery?.().then(b=>{const u=()=>{const e=document.getElementById('gBatt');if(e)e.textContent=Math.round(b.level*100)+'%';};u();b.addEventListener('levelchange',u);}).catch(()=>{const e=document.getElementById('gBatt');if(e)e.textContent='85%';});
+  const s=document.getElementById('gSig');if(s)s.textContent=navigator.connection?.effectiveType?.toUpperCase()||'LTE';
+}
+
+/* ═══════════════════════════════════════════════════
+   DEMO MODE
+═══════════════════════════════════════════════════ */
+function startDemo(){
+  S.isDemoMode=true;S.trips=[];S.alerts=[];S.role='admin';
+  document.getElementById('demoRib').classList.add('show');
+  document.getElementById('roleBadge').textContent='מנהל';document.getElementById('roleBadge').className='badge adm';
+  const dTrips=[
+    {name:'טיול שומרון',code:'SHM1',groups:[{name:'שומרים',guide:'אורי כץ',lat:32.10,lng:35.10},{name:'זאבים',guide:'רינה לוי',lat:32.12,lng:35.14}],
+      fences:[{id:'df1',name:'מחנה',type:'safe',coords:[[32.08,35.08],[32.14,35.08],[32.14,35.16],[32.08,35.16]]},{id:'df2',name:'כביש 60',type:'danger',coords:[[32.05,35.18],[32.15,35.18],[32.15,35.20],[32.05,35.20]]}],
+      pending:[{id:'dp1',name:'גורים',guide:'אלי כהן',ts:Date.now()-60000}]},
+    {name:'טיול גולן',code:'GOL2',groups:[{name:'עיט',guide:'מיכל ברק',lat:32.90,lng:35.70},{name:'נשר',guide:'דני שמש',lat:32.93,lng:35.74}],
+      fences:[{id:'df3',name:'גבול סוריה',type:'danger',coords:[[32.88,35.82],[32.96,35.82],[32.96,35.88],[32.88,35.88]]}],pending:[]},
+    {name:'טיול נגב',code:'NEG3',groups:[{name:'ארי',guide:'יוסי אדר',lat:30.60,lng:34.80}],
+      fences:[{id:'df4',name:'מסלול מאושר',type:'safe',coords:[[30.55,34.75],[30.65,34.75],[30.65,34.85],[30.55,34.85]]}],pending:[]},
+  ];
+  dTrips.forEach(td=>{
+    S.trips.push({id:uid(),name:td.name,code:td.code,status:'active',pending:td.pending||[],fences:td.fences,
+      groups:td.groups.map(g=>({...g,id:uid(),status:'active',battery:70+Math.floor(Math.random()*28),signal:'LTE',lastSeen:Date.now(),isEmergency:false,trackInterval:'live',inbox:[]}))
+    });
+  });
+  addAlert({type:'msg',message:'⏳ בקשת הצטרפות: "גורים" (אלי כהן) → "טיול שומרון"',ts:Date.now()-60000,pendingId:'dp1',silent:true});
+  show('screen-admin');initMap();
+  setTimeout(()=>{placeAll();renderSidebar();if(S.leafMap)S.leafMap.setView([31.8,35.1],8);},1200);
+  let tick=0;clearInterval(S.demoInt);
+  S.demoInt=setInterval(()=>{
+    tick++;
+    allGroups().forEach(g=>{g.lat+=(Math.random()-.5)*.01;g.lng+=(Math.random()-.5)*.01;g.lastSeen=Date.now();g.battery=Math.max(18,g.battery-.07);updateMarker(g);});
+    if(tick===7){const g=S.trips[1]?.groups[0];if(g&&!g.isEmergency){g.isEmergency=true;addAlert({type:'sos',message:`🚨 SOS מ"${g.name}" — ${g.guide}`,ts:Date.now(),grpId:g.id});startSiren();toast(`🚨 SOS מ"${g.name}"!`,'#ff3355');}}
+    if(tick===15){allGroups().forEach(g=>g.isEmergency=false);stopSiren();tick=0;}
+    if(S.tab==='trips')renderSidebar();refreshPills();
+  },3500);
+  toast('🎮 הדגמה: 3 טיולים | SOS אוטומטי עוד 25 שניות','#ffb020');
+}
+
+/* ═══════════════════════════════════════════════════
+   CONFIRM DIALOG
+═══════════════════════════════════════════════════ */
+function confirm2(t,m,cb){document.getElementById('confirmTitle').textContent=t;document.getElementById('confirmMsg').textContent=m;_confirmCb=cb;document.getElementById('confirmDlg').classList.add('open');}
+function confirmYes(){document.getElementById('confirmDlg').classList.remove('open');if(_confirmCb)_confirmCb();_confirmCb=null;}
+function confirmNo(){document.getElementById('confirmDlg').classList.remove('open');_confirmCb=null;}
+
+/* ═══════════════════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════════════════ */
+function allGroups(){return S.trips.flatMap(t=>t.groups);}
+function findGrp(id){return allGroups().find(g=>g.id===id)||null;}
+function uid(){return Math.random().toString(36).slice(2,10);}
+function openM(id){document.getElementById(id).classList.add('open');}
+function closeM(id){document.getElementById(id).classList.remove('open');}
+function toast(msg,color){
+  const el=document.createElement('div');el.className='toast';
+  if(color){el.style.color=color;el.style.borderColor=color+'28';}
+  el.textContent=msg;
+  document.getElementById('ta').prepend(el);setTimeout(()=>el.remove(),3200);
+}
+
+/* ═══════════════════════════════════════════════════
+   STARTUP
+═══════════════════════════════════════════════════ */
+// Periodic sidebar refresh
+setInterval(()=>{
+  if(document.getElementById('screen-admin')?.classList.contains('active')){
+    if(S.tab==='trips')renderSidebar();
+    refreshPills();
+  }
+},8000);
+
+// Check for saved guide session on load
+checkSessionRestore();
+
+</script>
+</body>
+</html>

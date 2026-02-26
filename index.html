@@ -50,12 +50,10 @@ html,body{
   -webkit-font-smoothing:antialiased;
 }
 button{font-family:var(--sans);cursor:pointer;border:none;background:none}
-/* Prevent iOS zoom on input focus */
 input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!important}
 .isel{font-size:max(14px,.59rem)!important}
 ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--b1);border-radius:2px}
 
-/* ── SCREENS ── */
 .screen{display:none;width:100%;height:100dvh;flex-direction:column}
 .screen.active{display:flex}
 #screen-landing{align-items:center;justify-content:center;padding:2rem;
@@ -64,7 +62,6 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
 #screen-pin{align-items:center;justify-content:center}
 #screen-admin{flex-direction:row}
 
-/* ── BADGE ── */
 .badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:99px;
   font-size:.55rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border:1px solid transparent}
 .badge.on  {background:var(--gd);color:var(--g);border-color:var(--gd2)}
@@ -74,13 +71,11 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
 .badge.crd {background:var(--pd);color:var(--p);border-color:var(--pd2)}
 .badge.pend{background:var(--yd);color:var(--y);border-color:var(--yd2)}
 
-/* ── ICON BTN ── */
 .ibtn{width:32px;height:32px;display:flex;align-items:center;justify-content:center;
   background:transparent;border:1px solid transparent;border-radius:var(--R3);color:var(--tm);transition:all .15s}
 .ibtn:hover{background:var(--s2);border-color:var(--b0);color:var(--t)}
 .ibtn svg{width:16px;height:16px}
 
-/* ── SMALL BTN ── */
 .sb{width:26px;height:26px;border-radius:7px;border:none;display:flex;align-items:center;justify-content:center;transition:all .15s;cursor:pointer}
 .sb svg{width:12px;height:12px}
 .sb.g{background:var(--gd);color:var(--g)}.sb.g:hover{background:var(--gd2)}
@@ -90,7 +85,6 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
 .sb.o{background:var(--od);color:var(--o)}.sb.o:hover{background:var(--od2)}
 .sb.ack{background:var(--r);color:#fff;width:auto;padding:0 8px;font-size:.6rem;font-weight:900}
 
-/* ── MODAL ── */
 .modal-bg{display:none;position:fixed;inset:0;z-index:9900;
   background:rgba(0,0,0,.8);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:1rem}
 .modal-bg.open{display:flex}
@@ -110,7 +104,6 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
 .btn-g{background:var(--s2);color:var(--tm);border:1px solid var(--b0)}.btn-g:hover{border-color:var(--b1);color:var(--t)}
 .btn-r{background:var(--rd);color:var(--r);border:1px solid var(--rd2)}.btn-r:hover{background:var(--rd2)}
 
-/* ── CONFIRM ── */
 .confirm-bg{display:none;position:fixed;inset:0;z-index:9950;
   background:rgba(0,0,0,.82);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:1rem}
 .confirm-bg.open{display:flex}
@@ -120,7 +113,6 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
 .confirm-box p{font-size:.78rem;color:var(--tm);line-height:1.5;margin-bottom:1.3rem}
 .confirm-btns{display:flex;gap:8px}.confirm-btns .btn{flex:1;padding:10px}
 
-/* ── TOAST ── */
 .ta{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);z-index:9999;
   display:flex;flex-direction:column;gap:5px;align-items:center;pointer-events:none}
 .toast{padding:7px 16px;background:var(--s0);border:1px solid var(--b1);border-radius:var(--R3);
@@ -129,7 +121,6 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
 @keyframes t-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 @keyframes t-out{to{opacity:0}}
 
-/* ══ LANDING ══ */
 .logo-block{display:flex;flex-direction:column;align-items:center;gap:1.1rem;margin-bottom:2rem}
 .logo-gem{width:84px;height:84px;border-radius:25px;
   background:linear-gradient(148deg,#00dfa8,#009e72);
@@ -161,13 +152,11 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
   color:var(--tm);font-size:.72rem;font-weight:700;transition:all .2s;cursor:pointer}
 .demo-btn:hover{border-color:var(--y);color:var(--y)}
 .demo-btn svg{width:13px;height:13px}
-/* Theme toggle — inline only, no fixed positioning */
 .theme-toggle{
   padding:5px 12px;border-radius:var(--R3);border:1px solid var(--b0);
   background:var(--s1);color:var(--tm);font-size:.68rem;font-weight:700;cursor:pointer;transition:all .2s}
 .theme-toggle:hover{border-color:var(--b1);color:var(--t)}
 
-/* ══ PIN ══ */
 .pin-card{background:var(--s0);border:1px solid var(--b1);border-radius:22px;
   padding:2.2rem 2rem;display:flex;flex-direction:column;align-items:center;gap:1.2rem;
   width:100%;max-width:340px;margin:1rem}
@@ -189,7 +178,6 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
   color:var(--t);font-size:1.22rem;font-weight:700;transition:all .15s;cursor:pointer}
 .pk:hover{background:var(--s2);border-color:var(--b1)}.pk:active{transform:scale(.94)}
 .pk.cancel{font-size:.72rem;color:var(--td)}.pk.del{font-size:1.1rem}
-/* Guide text input in pin screen */
 .pin-text-input{width:100%;max-width:230px;background:var(--s1);border:1px solid var(--b0);
   border-radius:var(--R2);color:var(--t);padding:12px;text-align:center;outline:none;
   font-family:var(--mono);letter-spacing:.12em;font-size:1.1rem!important;transition:border-color .15s}
@@ -198,7 +186,6 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
   background:var(--g);color:#001510;font-weight:900;font-size:.9rem;cursor:pointer;border:none;transition:filter .15s}
 .pin-submit:hover{filter:brightness(1.08)}
 
-/* ══ ADMIN LAYOUT ══ */
 .sidebar{width:320px;flex-shrink:0;background:var(--s0);border-left:1px solid var(--b0);
   display:flex;flex-direction:column;height:100dvh;overflow:hidden}
 .sb-head{padding:.85rem 1rem;border-bottom:1px solid var(--b0);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
@@ -218,10 +205,8 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
 .sh-add{width:22px;height:22px;border-radius:6px;border:1px solid var(--gd2);background:var(--gd);
   color:var(--g);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s}
 .sh-add:hover{background:var(--gd2)}.sh-add svg{width:12px;height:12px}
-/* Map area */
 .map-area{flex:1;position:relative;overflow:hidden}
 #map{width:100%;height:100%;background:#070b12}
-/* Map type bar — desktop: top-right (zoom is top-left), mobile: bottom-center above tabbar */
 .map-type-bar{position:absolute;top:12px;right:12px;z-index:750;display:flex;gap:4px;flex-wrap:wrap;max-width:200px}
 .mtype{padding:5px 10px;border-radius:7px;border:1px solid var(--b0);
   background:rgba(5,8,13,.88);backdrop-filter:blur(10px);
@@ -240,12 +225,10 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
   padding:1rem 1.6rem;color:var(--y);font-size:.77rem;font-weight:700;line-height:1.6;text-align:center;
   pointer-events:none;display:none}
 .draw-hint.show{display:block}
-/* Offline banner */
 .offline-banner{position:fixed;top:0;left:0;right:0;z-index:8000;
   background:var(--y);color:#3a2000;font-size:.7rem;font-weight:800;
   text-align:center;padding:4px;display:none}
 .offline-banner.show{display:block}
-/* Mobile bottom tabbar */
 .mob-tabbar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:8000;
   background:var(--s0);border-top:1px solid var(--b0);flex-shrink:0}
 .mob-tabbar nav{display:flex}
@@ -257,7 +240,6 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
 .mndot{position:absolute;top:6px;right:calc(50% - 14px);width:6px;height:6px;border-radius:50%;background:var(--r);display:none}
 .mndot.show{display:block}
 
-/* ══ TRIP CARDS ══ */
 .trip-card{background:var(--s1);border:1px solid var(--b0);border-radius:var(--R);padding:10px;
   transition:border-color .2s;margin-bottom:6px}
 .trip-card:hover{border-color:var(--b1)}
@@ -269,7 +251,6 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
 .tc-code{font-family:var(--mono);font-size:.72rem;color:var(--g);background:var(--gd);
   border:1px solid var(--gd2);border-radius:5px;padding:1px 7px;margin-top:2px;letter-spacing:.12em;display:inline-block}
 .tc-right{display:flex;gap:3px;align-items:flex-start}
-/* Pending section */
 .pending-section{background:var(--yd);border:1px solid var(--yd2);border-radius:var(--R2);padding:7px 9px;margin:5px 0}
 .pending-header{display:flex;align-items:center;gap:6px;margin-bottom:6px}
 .pending-header svg{width:13px;height:13px;color:var(--y)}
@@ -278,7 +259,6 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
   padding:5px 7px;background:rgba(255,176,32,.08);border-radius:6px;margin-bottom:4px}
 .pr-info .pr-name{font-size:.76rem;font-weight:700}.pr-info .pr-sub{font-size:.6rem;color:var(--tm)}
 .pr-btns{display:flex;gap:4px}
-/* Groups */
 .groups-wrap{display:flex;flex-direction:column;gap:4px;margin-top:4px}
 .gr{display:flex;align-items:center;justify-content:space-between;
   padding:7px 8px;background:var(--s2);border-radius:var(--R2);border:1px solid var(--b0)}
@@ -292,7 +272,6 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
 .isel{background:var(--s0);border:1px solid var(--b0);border-radius:5px;color:var(--t);
   font-weight:700;padding:3px 5px;outline:none;cursor:pointer}
 .isel:focus{border-color:var(--g)}
-/* Fences */
 .trip-fences{margin:5px 0;padding:6px 8px;background:var(--s2);border-radius:var(--R2);border:1px solid var(--b0)}
 .tf-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
 .tf-lbl{font-size:.57rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--td)}
@@ -301,7 +280,6 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
 .fc-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .fence-card{background:var(--s1);border:1px solid var(--b0);border-radius:var(--R2);padding:9px 10px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
 .fc-n{font-size:.77rem;font-weight:800}.fc-s{font-size:.6rem;color:var(--td)}
-/* Trip actions */
 .tc-actions{display:flex;gap:4px;margin-top:7px;flex-wrap:wrap}
 .ta-btn{flex:1;min-width:60px;padding:5px 7px;border-radius:var(--R3);border:none;
   font-size:.63rem;font-weight:700;display:flex;align-items:center;justify-content:center;gap:3px;transition:all .15s;cursor:pointer}
@@ -312,11 +290,9 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
 .ta-btn.cls{background:var(--rd);color:var(--r);border:1px solid var(--rd2)}.ta-btn.cls:hover{background:var(--rd2)}
 .ta-btn.del{background:var(--rd);color:var(--r);border:1px solid var(--rd2)}.ta-btn.del:hover{background:var(--rd2)}
 .closed-acts{display:flex;gap:4px;margin-top:7px}
-/* Bulk interval */
 .bulk-row{display:flex;align-items:center;gap:6px;margin-top:5px;padding:4px 6px;background:var(--s2);border-radius:var(--R3);border:1px solid var(--b0)}
 .bulk-row label{font-size:.6rem;color:var(--td);font-weight:700}
 .bulk-apply{padding:3px 8px;border-radius:5px;background:var(--gd);color:var(--g);border:1px solid var(--gd2);font-size:.62rem;font-weight:700;cursor:pointer}
-/* Alerts */
 .alert-item{display:flex;gap:8px;padding:7px 9px;border-radius:var(--R2);border:1px solid;margin-bottom:4px;align-items:flex-start}
 .alert-item.sos   {background:rgba(255,51,85,.04);border-color:rgba(255,51,85,.12)}
 .alert-item.breach{background:rgba(255,176,32,.04);border-color:rgba(255,176,32,.12)}
@@ -327,19 +303,11 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
 .alert-item.ack .ai-lbl{color:var(--g)}.alert-item.msg .ai-lbl{color:var(--b)}
 .ai-msg{font-size:.61rem;color:var(--tm);margin-top:1px;line-height:1.4}
 .ai-time{font-family:var(--mono);font-size:.55rem;color:var(--td);margin-top:2px}
-.ai-jump{width:22px;height:22px;border-radius:6px;border:1px solid var(--bd2);background:var(--bd);
-  color:var(--b);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;margin-top:1px;transition:background .15s}
-.ai-jump:hover{background:var(--bd2)}.ai-jump svg{width:11px;height:11px}
 .alert-del{width:20px;height:20px;border-radius:5px;border:1px solid var(--b0);background:transparent;
   color:var(--td);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;margin-top:1px;transition:all .15s}
 .alert-del:hover{background:var(--rd);border-color:var(--rd2);color:var(--r)}.alert-del svg{width:10px;height:10px}
 .empty{text-align:center;padding:1.8rem;color:var(--td);font-size:.74rem;line-height:1.7}
-/* Alerts bulk bar */
-.alerts-bulk-bar{display:flex;align-items:center;justify-content:space-between;
-  background:var(--yd);border:1px solid var(--yd2);border-radius:var(--R3);
-  padding:5px 9px;margin-bottom:6px;font-size:.67rem;font-weight:700;color:var(--y)}
 
-/* ══ GUIDE SCREEN ══ */
 #screen-guide{
   background:radial-gradient(ellipse 100% 45% at 50% 115%,rgba(0,223,168,.04),transparent 55%),var(--bg)}
 .g-head{padding:.85rem 1.2rem;border-bottom:1px solid var(--b0);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
@@ -374,7 +342,6 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
   font-weight:900;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;
   background:var(--s0);color:var(--r);box-shadow:0 0 28px rgba(255,51,85,.11),0 14px 34px rgba(0,0,0,.55);transition:transform .2s;cursor:pointer}
 .big-stop:hover{transform:scale(1.04)}.big-stop:active{transform:scale(.96)}.big-stop svg{width:42px;height:42px}
-/* SOS button — smaller, double-tap required */
 .sos-btn{width:100%;max-width:360px;padding:.75rem 1rem;border-radius:14px;
   display:flex;align-items:center;justify-content:center;gap:9px;
   font-weight:900;font-size:.97rem;border:2px solid rgba(255,51,85,.32);
@@ -399,7 +366,6 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
 .gstat{text-align:center}.gstat .sl{font-size:.55rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--td)}
 .gstat .sv{font-family:var(--mono);font-size:.9rem;font-weight:700;margin-top:2px}
 
-/* ── Guide Inbox ── */
 .g-inbox{width:100%;max-width:360px;border:1px solid var(--b0);border-radius:var(--R);background:var(--s0);overflow:hidden}
 .g-inbox-head{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;
   border-bottom:1px solid var(--b0);background:var(--s1);cursor:pointer;user-select:none}
@@ -432,13 +398,17 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
 .g-inbox-send:hover{filter:brightness(1.1)}
 .g-inbox-chevron{transition:transform .25s}
 
-/* ── DEMO RIB ── */
 .demo-rib{position:fixed;top:10px;left:50%;transform:translateX(-50%);z-index:8000;
   padding:3px 13px;border-radius:99px;background:var(--yd);border:1px solid var(--yd2);
   font-size:.59rem;font-weight:800;color:var(--y);letter-spacing:.08em;text-transform:uppercase;display:none;pointer-events:none}
 .demo-rib.show{display:block}
 
-/* ── Leaflet overrides ── */
+/* Firebase status indicator */
+.fb-status{display:flex;align-items:center;gap:4px;font-size:.58rem;font-weight:700;padding:2px 7px;border-radius:99px;border:1px solid transparent}
+.fb-status.connected{background:var(--gd);color:var(--g);border-color:var(--gd2)}
+.fb-status.disconnected{background:var(--yd);color:var(--y);border-color:var(--yd2)}
+.fb-dot{width:5px;height:5px;border-radius:50%;background:currentColor}
+
 .leaflet-control-attribution{background:rgba(5,8,13,.85)!important;color:#2c4055!important}
 .leaflet-control-attribution a{color:#2c4055!important}
 .leaflet-control-zoom a{background:var(--s0)!important;color:var(--t)!important;border-color:var(--b0)!important}
@@ -451,7 +421,6 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
 .cm.sos{background:#ff3355;box-shadow:0 0 20px #ff3355;animation:sos-glow 1s ease infinite}
 .cm.ended{background:#1a2d3e;border-color:#2c4055}
 
-/* ══ MOBILE ══ */
 @media(max-width:768px){
   #screen-admin{flex-direction:column}
   .sidebar{width:100%;height:auto;border-left:none;border-bottom:1px solid var(--b0);display:none}
@@ -467,15 +436,15 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
 </head>
 <body>
 
-<!-- floating theme toggle REMOVED - now inline in each screen header -->
 <div class="offline-banner" id="offlineBanner">📡 אין חיבור — מיקומים נשמרים מקומית</div>
 <div class="ta" id="ta"></div>
 <div class="demo-rib" id="demoRib">🎮 מצב הדגמה</div>
 
 <!-- ═══ LANDING ═══ -->
 <div id="screen-landing" class="screen active">
-  <div style="position:absolute;top:12px;left:12px">
+  <div style="position:absolute;top:12px;left:12px;display:flex;align-items:center;gap:6px">
     <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()">☀️ יום</button>
+    <div class="fb-status disconnected" id="fbStatus"><div class="fb-dot"></div><span id="fbStatusTxt">מתחבר...</span></div>
   </div>
   <div class="logo-block">
     <div class="logo-gem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
@@ -510,7 +479,6 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
   <div class="pin-card">
     <div class="pin-ico a" id="pinIco"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
     <div class="pin-head"><h2 id="pinTitle">אימות מנהל</h2><p id="pinHint">קוד: 1234</p></div>
-    <!-- Numeric pad (admin / coord) -->
     <div id="pinNumSection">
       <div class="pin-dots" style="margin-bottom:1rem">
         <div class="pd" id="pd0">·</div><div class="pd" id="pd1">·</div>
@@ -525,7 +493,6 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
         <button class="pk del" onclick="pdel()">⌫</button>
       </div>
     </div>
-    <!-- Text input (group) -->
     <div id="pinTxtSection" style="display:none;flex-direction:column;align-items:center;gap:10px;width:100%">
       <input class="pin-text-input" id="pinTxtInput" type="text" placeholder="ABC1" maxlength="6"
         style="text-transform:uppercase" oninput="this.value=this.value.toUpperCase()"
@@ -538,7 +505,6 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
 
 <!-- ═══ ADMIN ═══ -->
 <div id="screen-admin" class="screen">
-  <!-- Sidebar -->
   <div class="sidebar" id="adminSidebar">
     <div class="sb-head">
       <div class="sb-logo">
@@ -562,23 +528,19 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
     </div>
     <div class="sb-body" id="sbBody"></div>
   </div>
-  <!-- Map -->
   <div class="map-area" id="adminMap">
     <div id="map"></div>
-    <!-- Map type buttons (Leaflet) -->
     <div class="map-type-bar" id="mapTypeBarL" style="display:none">
       <button class="mtype active" id="lt-dark" onclick="setLType('dark')">לילה</button>
       <button class="mtype" id="lt-osm" onclick="setLType('osm')">רחוב</button>
       <button class="mtype" id="lt-topo" onclick="setLType('topo')">טופו</button>
     </div>
-    <!-- Status pills -->
     <div class="map-overlay" id="mapOverlay" style="display:none">
       <div class="mpill g" id="pillActive"><div class="mpd"></div><span id="pillActiveN">0</span> פעילות</div>
       <div class="mpill" id="pillSOS" style="color:var(--r);border-color:rgba(255,51,85,.2);display:none">🚨 <span id="pillSOSN">0</span> SOS</div>
     </div>
     <div class="draw-hint" id="drawHint">✏️ צייר פוליגון על המפה<br>לחץ נקודה-נקודה, לחץ פעמיים לסיום</div>
   </div>
-  <!-- Mobile tabbar -->
   <div class="mob-tabbar">
     <nav>
       <button class="mtab" id="mtab-trips" onclick="setMobTab('trips')">
@@ -613,8 +575,6 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
     </div>
   </div>
   <div class="g-body">
-
-    <!-- STEP 1: Trip code -->
     <div class="sel-card" id="joinStep1">
       <div class="sg">
         <label>קוד טיול</label>
@@ -626,15 +586,12 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
       <div class="join-err" id="tripLookupErr"></div>
       <button class="btn btn-p" onclick="lookupTrip()" style="width:100%;margin-top:4px">המשך →</button>
     </div>
-
-    <!-- STEP 2: New or existing group -->
     <div class="sel-card" id="joinStep2" style="display:none">
       <div id="joinTripFound" style="font-size:.72rem;color:var(--g);font-weight:800;text-align:center;margin-bottom:4px"></div>
       <div class="join-mode-btns" id="joinModeBtns">
         <button class="btn btn-g" id="btnJoinNew" onclick="selectJoinMode('new')">➕ קבוצה חדשה</button>
         <button class="btn btn-g" id="btnJoinExist" onclick="selectJoinMode('exist')">🔑 קבוצה קיימת</button>
       </div>
-      <!-- New group fields -->
       <div id="joinNewFields" style="display:none;flex-direction:column;gap:7px">
         <div class="sg"><label>שם הקבוצה</label><input type="text" id="gGrpNameIn" placeholder="שומרים · זאבים..."/></div>
         <div class="sg"><label>שם המדריך</label><input type="text" id="gGuideIn" placeholder="יוסי לוי"/></div>
@@ -646,7 +603,6 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
         </div>
         <button class="btn btn-p" onclick="submitJoinRequest()" style="width:100%">שלח בקשת הצטרפות</button>
       </div>
-      <!-- Existing group fields -->
       <div id="joinExistFields" style="display:none;flex-direction:column;gap:7px">
         <div class="sg"><label>שם הקבוצה שלי</label><input type="text" id="gExistGrpName" placeholder="שומרים"/></div>
         <div class="sg">
@@ -659,8 +615,6 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
       </div>
       <button class="btn btn-g" onclick="backToStep1()" style="width:100%;margin-top:4px;font-size:.72rem">← חזור</button>
     </div>
-
-    <!-- Active trip display -->
     <div class="g-cur" id="gCur" style="display:none">
       <div class="g-trip-name" id="gTripName">—</div>
       <div class="g-grp-name" id="gGrpName"></div>
@@ -670,15 +624,11 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
       </div>
       <div id="gJoinStatus" style="font-size:.7rem;color:var(--tm);text-align:center;margin-top:6px;display:none"></div>
     </div>
-
-    <!-- SOS button — always visible, double-tap required -->
     <button class="sos-btn" id="sosBtnG" onclick="triggerSOS()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
       SOS — לחץ פעמיים לשליחה
     </button>
-
     <div class="g-btns" id="gBtns"></div>
-
     <div class="mode-row" id="modeRow" style="display:none">
       <button class="mode-tog" id="modeTog" onclick="toggleBurst()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
@@ -686,13 +636,10 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
       </button>
       <div class="mode-hint" id="modeHint">תדירות לפי הגדרת המנהל.</div>
     </div>
-
     <button class="leave-trip-btn" id="leaveTripBtn" onclick="confirmLeaveTrip()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
       התנתק מהטיול
     </button>
-
-    <!-- Inbox -->
     <div class="g-inbox" id="guideInbox" style="display:none">
       <div class="g-inbox-head" onclick="toggleInbox()">
         <div class="g-inbox-title">
@@ -708,7 +655,6 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
         <button class="g-inbox-send" onclick="sendReply()">שלח</button>
       </div>
     </div>
-
   </div>
   <div class="g-foot">
     <div class="gstat"><div class="sl">סוללה</div><div class="sv" id="gBatt">—</div></div>
@@ -742,7 +688,6 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
   <div class="ma"><button class="btn btn-g" onclick="closeM('mMsg')">ביטול</button><button class="btn btn-p" onclick="sendMsg()">שלח</button></div>
 </div></div>
 
-<!-- Quick reply modal for replying to a specific alert/group -->
 <div class="modal-bg" id="mReply"><div class="modal">
   <h3 id="mReplyTitle">↩ תגובה לקבוצה</h3>
   <div class="fg">
@@ -774,6 +719,64 @@ input,select,textarea{font-family:var(--sans);font-size:max(16px,.88rem)!importa
     <button class="btn btn-r" onclick="confirmYes()">אישור</button>
   </div>
 </div></div>
+
+<!-- ══════════════════════════════════════════════════
+     FIREBASE SDK
+══════════════════════════════════════════════════ -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+import { getDatabase, ref, set, get, update, push, onValue, off, remove, serverTimestamp }
+  from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
+
+// ══════════════════════════════════════════════════
+// Firebase config — YOUR project
+// ══════════════════════════════════════════════════
+const firebaseConfig = {
+  apiKey: "AIzaSyAsjz6heHLz2BQ2sKJcx3z37agkKF0z9FM",
+  authDomain: "youth-track.firebaseapp.com",
+  databaseURL: "https://youth-track-default-rtdb.firebaseio.com",
+  projectId: "youth-track",
+  storageBucket: "youth-track.firebasestorage.app",
+  messagingSenderId: "614128566596",
+  appId: "1:614128566596:web:2f6c220d254669adb9711"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+// Expose to window so the rest of the code can use it
+window._db = db;
+window._fbRef = ref;
+window._fbSet = set;
+window._fbGet = get;
+window._fbUpdate = update;
+window._fbPush = push;
+window._fbOnValue = onValue;
+window._fbOff = off;
+window._fbRemove = remove;
+window._fbServerTimestamp = serverTimestamp;
+
+// Connection status
+const connRef = ref(db, '.info/connected');
+onValue(connRef, snap => {
+  const connected = snap.val() === true;
+  const el = document.getElementById('fbStatus');
+  const txt = document.getElementById('fbStatusTxt');
+  if (el && txt) {
+    el.className = 'fb-status ' + (connected ? 'connected' : 'disconnected');
+    txt.textContent = connected ? 'מחובר' : 'מתחבר...';
+  }
+  if (connected) {
+    document.getElementById('offlineBanner')?.classList.remove('show');
+  } else {
+    document.getElementById('offlineBanner')?.classList.add('show');
+  }
+});
+
+// Signal that Firebase is ready
+window._fbReady = true;
+window.dispatchEvent(new Event('fbReady'));
+</script>
 
 <script>
 'use strict';
@@ -808,27 +811,134 @@ const S={
   trips:[],
   alerts:[],
   tab:'trips',mobTab:'trips',
-  // guide
   gGrpId:null,gTripId:null,gPendingId:null,
   isTracking:false,burstMode:false,isEmergency:false,gApproved:false,
   uptimeStart:null,uptimeInt:null,locationInt:null,approvalPoll:null,
-  // guide inbox
-  inbox:[],
-  inboxOpen:false,
-  replyToMsgId:null,
-  // map
+  inbox:[],inboxOpen:false,replyToMsgId:null,
   leafMap:null,leafLayer:null,
   markers:{},fenceLayers:{},drawnItems:null,leafDraw:null,editControl:null,
   pendingFenceCoords:null,pendingFenceLayer:null,pendingFenceTripId:null,editingFenceId:null,
-  // audio
   audioCtx:null,sirenInt:null,
-  // demo
   isDemoMode:false,demoInt:null,
-  // offline
   offlineQueue:[],
+  // Firebase listeners
+  fbListeners:[],
 };
 let _confirmCb=null;
 let _sosArmTimer=null;
+
+/* ═══════════════════════════════════════════════════
+   FIREBASE HELPERS
+═══════════════════════════════════════════════════ */
+function fbReady(){return !!window._fbReady;}
+
+function fbSet(path,data){
+  if(!fbReady())return Promise.reject('Firebase not ready');
+  return window._fbSet(window._fbRef(window._db,path),data);
+}
+function fbUpdate(path,data){
+  if(!fbReady())return Promise.reject('Firebase not ready');
+  return window._fbUpdate(window._fbRef(window._db,path),data);
+}
+function fbGet(path){
+  if(!fbReady())return Promise.reject('Firebase not ready');
+  return window._fbGet(window._fbRef(window._db,path));
+}
+function fbPush(path,data){
+  if(!fbReady())return Promise.reject('Firebase not ready');
+  return window._fbPush(window._fbRef(window._db,path),data);
+}
+function fbRemove(path){
+  if(!fbReady())return Promise.reject('Firebase not ready');
+  return window._fbRemove(window._fbRef(window._db,path));
+}
+function fbListen(path,cb){
+  if(!fbReady())return;
+  const r=window._fbRef(window._db,path);
+  window._fbOnValue(r,cb);
+  S.fbListeners.push({r,cb});
+  return r;
+}
+function fbStopAll(){
+  S.fbListeners.forEach(({r,cb})=>window._fbOff&&window._fbOff(r,cb));
+  S.fbListeners=[];
+}
+
+/* ═══════════════════════════════════════════════════
+   FIREBASE SYNC — load trips on admin entry
+═══════════════════════════════════════════════════ */
+function fbStartAdminSync(){
+  fbListen('trips', snap=>{
+    const data=snap.val()||{};
+    // Merge with local state: update existing, add new
+    const newTrips=Object.entries(data).map(([id,t])=>({
+      id,
+      name:t.name||'',
+      code:t.code||'',
+      status:t.status||'active',
+      groups:t.groups?Object.entries(t.groups).map(([gid,g])=>({
+        id:gid,...g,
+        inbox:g.inbox?Object.entries(g.inbox).map(([mid,m])=>({id:mid,...m})):[],
+      })):[],
+      fences:t.fences?Object.entries(t.fences).map(([fid,f])=>({id:fid,...f})):[],
+      pending:t.pending?Object.entries(t.pending).map(([pid,p])=>({id:pid,...p})):[],
+    }));
+    
+    // Update markers for groups that have location
+    newTrips.forEach(trip=>{
+      trip.groups.forEach(g=>{
+        if(g.lat)updateMarker(g);
+        else if(S.markers[g.id])removeMarker(g.id);
+      });
+    });
+
+    S.trips=newTrips;
+    if(S.tab==='trips'||S.tab==='fences')renderSidebar();
+    refreshPills();
+    checkSiren();
+  });
+
+  fbListen('alerts', snap=>{
+    const data=snap.val()||{};
+    S.alerts=Object.entries(data).map(([id,a])=>({id,...a}));
+    if(S.tab==='alerts')renderSidebar();
+    const hasNew=S.alerts.some(a=>!a.seen);
+    if(hasNew){
+      document.getElementById('alertDot')?.classList.add('show');
+      document.getElementById('mobAlertDot')?.classList.add('show');
+    }
+  });
+}
+
+function fbSaveTrip(trip){
+  const {id,...data}=trip;
+  const groups={};
+  trip.groups.forEach(g=>{const{id:gid,...gd}=g;groups[gid]={...gd,inbox:undefined};
+    if(g.inbox?.length){const inbox={};g.inbox.forEach(m=>{const{id:mid,...md}=m;inbox[mid]=md;});groups[gid].inbox=inbox;}
+  });
+  const fences={};
+  (trip.fences||[]).forEach(f=>{const{id:fid,...fd}=f;fences[fid]=fd;});
+  const pending={};
+  (trip.pending||[]).forEach(p=>{const{id:pid,...pd}=p;pending[pid]=pd;});
+  return fbSet('trips/'+id,{...data,groups,fences,pending});
+}
+
+function fbSaveGroup(tripId,grp){
+  const{id,...data}=grp;
+  const inbox={};
+  (grp.inbox||[]).forEach(m=>{const{id:mid,...md}=m;inbox[mid]=md;});
+  return fbSet('trips/'+tripId+'/groups/'+id,{...data,inbox});
+}
+
+function fbUpdateGroupLocation(tripId,grpId,lat,lng,lastSeen,battery,signal,status){
+  return fbUpdate('trips/'+tripId+'/groups/'+grpId,{lat,lng,lastSeen,battery,signal,status});
+}
+
+function fbSaveAlert(a){
+  const{id,...data}=a;
+  if(id)return fbSet('alerts/'+id,data);
+  return fbPush('alerts',data).then(r=>{a.id=r.key;});
+}
 
 /* ═══════════════════════════════════════════════════
    THEME
@@ -845,7 +955,6 @@ function toggleTheme(){
   const cur=document.documentElement.getAttribute('data-theme')||'dark';
   applyTheme(cur==='dark'?'light':'dark');
 }
-// Init theme
 (function(){applyTheme(localStorage.getItem('yt-theme')||'dark',false);})();
 
 /* ═══════════════════════════════════════════════════
@@ -855,13 +964,11 @@ function show(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
-/* Guide back arrow — if connected, confirm first */
 function guideBack(){
   if(S.isTracking||S.gApproved){
     confirm2('חזרה לדף הבית?','השידור יופסק ותתנתק מהטיול.',()=>{guideLogout();});
   }else{
     show('screen-landing');
-    // Reset guide state without clearing session
     document.getElementById('joinStep1').style.display='flex';
     document.getElementById('joinStep2').style.display='none';
     document.getElementById('joinNewFields').style.display='none';
@@ -878,20 +985,15 @@ function guideBack(){
 /* ═══════════════════════════════════════════════════
    OFFLINE
 ═══════════════════════════════════════════════════ */
-window.addEventListener('online',()=>{
-  document.getElementById('offlineBanner').classList.remove('show');
-  flushOffline();toast('🌐 החיבור חזר','#00dfa8');
-});
-window.addEventListener('offline',()=>{
-  document.getElementById('offlineBanner').classList.add('show');
-  toast('📡 אין חיבור','#ffb020');
-});
+window.addEventListener('online',()=>{flushOffline();toast('🌐 החיבור חזר','#00dfa8');});
+window.addEventListener('offline',()=>{toast('📡 אין חיבור','#ffb020');});
 if(!navigator.onLine)document.getElementById('offlineBanner').classList.add('show');
 function flushOffline(){
   if(!S.offlineQueue.length)return;
   S.offlineQueue.forEach(item=>{
     const g=findGrp(item.gid);
-    if(g){g.lat=item.lat;g.lng=item.lng;g.lastSeen=item.ts;updateMarker(g);}
+    if(g){g.lat=item.lat;g.lng=item.lng;g.lastSeen=item.ts;updateMarker(g);
+      if(S.gTripId)fbUpdateGroupLocation(S.gTripId,item.gid,item.lat,item.lng,item.ts,g.battery,g.signal,g.status);}
   });
   toast(`📡 שודרו ${S.offlineQueue.length} מיקומים אופליין`,'#00dfa8');
   S.offlineQueue=[];
@@ -909,7 +1011,6 @@ function clearSession(){try{localStorage.removeItem(LS_KEY);}catch(e){}}
 
 function checkSessionRestore(){
   const sess=loadSession();if(!sess)return;
-  // Pre-fill trip code on guide screen
   const el=document.getElementById('gTripCode');
   if(el)el.value=sess.code||'';
   show('screen-guide');
@@ -934,7 +1035,6 @@ function goPin(role){
   document.getElementById('pinNumSection').style.display=isGroup?'none':'block';
   document.getElementById('pinTxtSection').style.display=isGroup?'flex':'none';
   if(isGroup){
-    // Pre-fill from session
     const sess=loadSession();
     const inp=document.getElementById('pinTxtInput');
     if(inp){inp.value=sess?.code||'';setTimeout(()=>inp.focus(),120);}
@@ -944,7 +1044,6 @@ function goPin(role){
 function pinTextSubmit(){
   const code=document.getElementById('pinTxtInput').value.trim().toUpperCase();
   if(!code){toast('הזן קוד טיול','#ffb020');return;}
-  // Pre-fill guide screen and go
   const el=document.getElementById('gTripCode');
   if(el)el.value=code;
   show('screen-guide');
@@ -977,6 +1076,7 @@ function pinDraw(){
 }
 function adminLogout(){
   stopSiren();S.isDemoMode=false;clearInterval(S.demoInt);
+  fbStopAll();
   document.getElementById('demoRib').classList.remove('show');
   show('screen-landing');
 }
@@ -996,7 +1096,10 @@ function enterDashboard(){
   const rb=document.getElementById('roleBadge');
   rb.textContent=S.role==='admin'?'מנהל':'רכז';
   rb.className=`badge ${S.role==='admin'?'adm':'crd'}`;
-  initMap();renderSidebar();
+  initMap();
+  // Start Firebase sync (only when not demo)
+  if(!S.isDemoMode)fbStartAdminSync();
+  renderSidebar();
   if(window.innerWidth<=768){
     document.getElementById('adminSidebar').classList.add('mob-active');
     document.getElementById('adminMap').classList.remove('mob-active');
@@ -1043,16 +1146,13 @@ function loadLeaflet(){
 function initLeaflet(){
   const isDark=document.documentElement.getAttribute('data-theme')!=='light';
   const initTile=isDark?'dark':'osm';
-  // Zoom control on top-left; map type bar on top-right — no collision
   S.leafMap=L.map('map',{center:[31.5,35.0],zoom:8,zoomControl:false});
   L.control.zoom({position:'topleft'}).addTo(S.leafMap);
   S.leafLayer=L.tileLayer(L_TILES[initTile],{attribution:TILE_ATTR[initTile],maxZoom:18}).addTo(S.leafMap);
-  // Highlight active tile button
   document.querySelectorAll('[id^="lt-"]').forEach(b=>b.classList.remove('active'));
   const ab=document.getElementById('lt-'+initTile);if(ab)ab.classList.add('active');
   document.getElementById('mapTypeBarL').style.display='flex';
   document.getElementById('mapOverlay').style.display='flex';
-  // Draw
   S.drawnItems=new L.FeatureGroup().addTo(S.leafMap);
   S.leafDraw=new L.Control.Draw({
     draw:{polygon:{shapeOptions:{color:'#ffb020',fillColor:'#ffb020',fillOpacity:.1,weight:2}},
@@ -1105,7 +1205,7 @@ function updateMarker(g){
 }
 function removeMarker(id){if(S.markers[id]){S.leafMap?.removeLayer(S.markers[id]);delete S.markers[id];}}
 function addFenceLayer(f){
-  if(!S.leafMap)return;
+  if(!S.leafMap||S.fenceLayers[f.id])return;
   const c=FENCE_COLORS[f.type]||'#00dfa8';
   const poly=L.polygon(f.coords,{color:c,fillColor:c,fillOpacity:.1,weight:2,dashArray:'6 4'})
     .addTo(S.leafMap)
@@ -1128,7 +1228,6 @@ function panToFence(fId){
   if(S.fenceLayers[fId])S.leafMap?.fitBounds(S.fenceLayers[fId].getBounds(),{padding:[40,40]});
 }
 function jumpToSOS(grpId){
-  // On mobile: switch to map tab. On desktop: just pan.
   if(window.innerWidth<=768){setMobTab('map');}
   setTimeout(()=>focusGrp(grpId),100);
 }
@@ -1168,8 +1267,19 @@ function confirmFence(){
   if(!trip.fences)trip.fences=[];
   trip.fences.push(fence);
   addFenceLayer(fence);
+  // Save to Firebase
+  fbSaveTrip(trip).catch(e=>toast('שגיאה בשמירת גבול','#ff3355'));
   S.pendingFenceCoords=null;S.pendingFenceLayer=null;
   closeM('mFence');renderSidebar();toast(`גבול "${name}" נוסף`,'#00dfa8');
+}
+function deleteFence(tripId,fId){
+  confirm2('מחק גבול?','לא ניתן לבטל.',()=>{
+    const t=S.trips.find(x=>x.id===tripId);if(!t)return;
+    t.fences=(t.fences||[]).filter(f=>f.id!==fId);
+    removeFenceLayer(fId);
+    fbRemove('trips/'+tripId+'/fences/'+fId).catch(()=>{});
+    renderSidebar();toast('גבול נמחק','#607d96');
+  });
 }
 function toggleEditFence(fId){
   if(S.editingFenceId===fId){
@@ -1185,13 +1295,6 @@ function toggleEditFence(fId){
     }
   }
 }
-function deleteFence(tripId,fId){
-  confirm2('מחק גבול?','לא ניתן לבטל.',()=>{
-    const t=S.trips.find(x=>x.id===tripId);if(!t)return;
-    t.fences=(t.fences||[]).filter(f=>f.id!==fId);
-    removeFenceLayer(fId);renderSidebar();toast('גבול נמחק','#607d96');
-  });
-}
 
 /* ═══════════════════════════════════════════════════
    TRIP CRUD
@@ -1206,22 +1309,28 @@ function createTrip(){
   let code=(document.getElementById('mTripCode').value.trim().toUpperCase()||'').slice(0,6)||genCode();
   if(!name){toast('יש להזין שם','#ff3355');return;}
   if(S.trips.find(t=>t.code===code)){toast('קוד כבר בשימוש','#ff3355');return;}
-  S.trips.push({id:uid(),name,code,status:'active',groups:[],fences:[],pending:[]});
-  closeM('mTrip');renderSidebar();toast(`🗺️ "${name}" נפתח | קוד: ${code}`,'#00dfa8');
+  const trip={id:uid(),name,code,status:'active',groups:[],fences:[],pending:[]};
+  S.trips.push(trip);
+  fbSaveTrip(trip).then(()=>toast(`🗺️ "${name}" נפתח | קוד: ${code}`,'#00dfa8')).catch(()=>toast(`🗺️ "${name}" נפתח (לא נשמר לענן)`,'#ffb020'));
+  closeM('mTrip');renderSidebar();
 }
 function genCode(){const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}
 function confirmCloseTrip(id){
   const t=S.trips.find(x=>x.id===id);if(!t)return;
   confirm2(`סגור "${t.name}"?`,`${t.groups.length} קבוצות יסומנו כהסתיים.`,()=>{
     t.status='ended';t.groups.forEach(g=>{g.status='ended';g.lat=null;g.lng=null;g.isEmergency=false;removeMarker(g.id);});
-    t.pending=[];checkSiren();renderSidebar();refreshPills();toast(`"${t.name}" נסגר`,'#607d96');
+    t.pending=[];
+    fbUpdate('trips/'+id,{status:'ended'}).catch(()=>{});
+    checkSiren();renderSidebar();refreshPills();toast(`"${t.name}" נסגר`,'#607d96');
   });
 }
 function confirmDeleteTrip(id){
   const t=S.trips.find(x=>x.id===id);if(!t)return;
   confirm2(`מחק "${t.name}" לצמיתות?`,'פעולה בלתי הפיכה.',()=>{
     t.groups.forEach(g=>removeMarker(g.id));(t.fences||[]).forEach(f=>removeFenceLayer(f.id));
-    S.trips=S.trips.filter(x=>x.id!==id);renderSidebar();refreshPills();toast('טיול נמחק','#ff3355');
+    S.trips=S.trips.filter(x=>x.id!==id);
+    fbRemove('trips/'+id).catch(()=>{});
+    renderSidebar();refreshPills();toast('טיול נמחק','#ff3355');
   });
 }
 
@@ -1238,8 +1347,10 @@ function createGroup(){
   const name=document.getElementById('mGrpName').value.trim(),guide=document.getElementById('mGuide').value.trim();
   if(!name||!guide){toast('יש למלא הכל','#ff3355');return;}
   const t=S.trips.find(x=>x.id===_addGTripId);if(!t)return;
-  t.groups.push({id:uid(),name,guide,status:'active',battery:85+Math.floor(Math.random()*13),
-    signal:'LTE',lastSeen:null,lat:null,lng:null,isEmergency:false,trackInterval:'live',inbox:[]});
+  const grp={id:uid(),name,guide,status:'active',battery:90,
+    signal:'LTE',lastSeen:null,lat:null,lng:null,isEmergency:false,trackInterval:'live',inbox:[]};
+  t.groups.push(grp);
+  fbSaveGroup(_addGTripId,grp).catch(()=>{});
   closeM('mGroup');renderSidebar();toast(`קבוצה "${name}" נוספה`,'#00dfa8');
 }
 function confirmRemoveGrp(tripId,grpId){
@@ -1247,6 +1358,7 @@ function confirmRemoveGrp(tripId,grpId){
   confirm2(`הסר "${g.name}"?`,'',()=>{
     const t=S.trips.find(x=>x.id===tripId);if(!t)return;
     removeMarker(grpId);t.groups=t.groups.filter(x=>x.id!==grpId);
+    fbRemove('trips/'+tripId+'/groups/'+grpId).catch(()=>{});
     if(grpId===S.gGrpId){S.gGrpId=null;if(S.isTracking)stopTracking();}
     checkSiren();renderSidebar();refreshPills();toast(`"${g.name}" הוסרה`,'#ff3355');
   });
@@ -1254,11 +1366,15 @@ function confirmRemoveGrp(tripId,grpId){
 function setGrpInterval(grpId,val){
   if(S.role!=='admin')return;const g=findGrp(grpId);if(!g)return;
   g.trackInterval=val;
+  const t=S.trips.find(tr=>tr.groups.some(x=>x.id===grpId));
+  if(t)fbUpdate('trips/'+t.id+'/groups/'+grpId,{trackInterval:val}).catch(()=>{});
   if(grpId===S.gGrpId&&S.isTracking){clearInterval(S.locationInt);scheduleLocation(val);}
 }
 function setAllGrpInterval(tripId,val){
   const t=S.trips.find(x=>x.id===tripId);if(!t)return;
-  t.groups.forEach(g=>{g.trackInterval=val;if(g.id===S.gGrpId&&S.isTracking)scheduleLocation(val);});
+  t.groups.forEach(g=>{g.trackInterval=val;if(g.id===S.gGrpId&&S.isTracking)scheduleLocation(val);
+    fbUpdate('trips/'+tripId+'/groups/'+g.id,{trackInterval:val}).catch(()=>{});
+  });
   renderSidebar();toast('תדירות עודכנה לכל הקבוצות','#00dfa8');
 }
 function pingGrp(grpId){
@@ -1272,7 +1388,8 @@ function ackSOS(grpId){
   const g=findGrp(grpId);if(!g)return;
   confirm2(`אשר SOS של "${g.name}"?`,'הקבוצה תסומן כבטוחה.',()=>{
     g.isEmergency=false;updateMarker(g);checkSiren();
-    // Remove the original SOS alert for this group (it's resolved)
+    const t=S.trips.find(tr=>tr.groups.some(x=>x.id===grpId));
+    if(t)fbUpdate('trips/'+t.id+'/groups/'+grpId,{isEmergency:false}).catch(()=>{});
     S.alerts=S.alerts.filter(a=>!(a.type==='sos'&&a.grpId===grpId));
     addAlert({type:'ack',message:`✅ SOS של "${g.name}" אושר`,ts:Date.now()});
     renderSidebar();refreshPills();toast('✅ SOS אושר','#00dfa8');
@@ -1292,9 +1409,11 @@ function approveGroup(tripId,pendingId){
     isEmergency:false,trackInterval:'live',inbox:[]};
   trip.groups.push(grp);
   trip.pending=(trip.pending||[]).filter(p=>p.id!==pendingId);
-  // Mark alert as handled
+  fbSaveGroup(tripId,grp).catch(()=>{});
+  fbRemove('trips/'+tripId+'/pending/'+pendingId).catch(()=>{});
   const a=S.alerts.find(x=>x.pendingId===pendingId);
-  if(a){a.message=a.message.replace('⏳','✅').replace('ממתין','אושר');a.pendingId=null;}
+  if(a){a.message=a.message.replace('⏳','✅').replace('ממתין','אושר');a.pendingId=null;
+    if(a.id)fbUpdate('alerts/'+a.id,{message:a.message,pendingId:null}).catch(()=>{});}
   renderSidebar();toast(`✅ "${pend.name}" אושרה`,'#00dfa8');
 }
 function rejectGroup(tripId,pendingId){
@@ -1302,8 +1421,10 @@ function rejectGroup(tripId,pendingId){
   const trip=S.trips.find(t=>t.id===tripId);if(!trip)return;
   const pend=(trip.pending||[]).find(p=>p.id===pendingId);if(!pend)return;
   trip.pending=(trip.pending||[]).filter(p=>p.id!==pendingId);
+  fbRemove('trips/'+tripId+'/pending/'+pendingId).catch(()=>{});
   const a=S.alerts.find(x=>x.pendingId===pendingId);
-  if(a){a.message=a.message.replace('⏳','✕');a.pendingId=null;}
+  if(a){a.message=a.message.replace('⏳','✕');a.pendingId=null;
+    if(a.id)fbUpdate('alerts/'+a.id,{message:a.message,pendingId:null}).catch(()=>{});}
   renderSidebar();toast(`"${pend.name}" נדחתה`,'#ff3355');
 }
 
@@ -1330,12 +1451,14 @@ function sendMsg(){
   else if(target.startsWith('grp:')){const g=findGrp(target.slice(4));if(g)recs=[g];}
   const sender=S.role==='admin'?'מנהל':'רכז';
   const msgId=uid(),ts=Date.now();
-  // Push to each group inbox
   recs.forEach(g=>{
     if(!g.inbox)g.inbox=[];
-    g.inbox.push({id:msgId,text,from:sender,ts,replies:[]});
+    const msg={id:msgId,text,from:sender,ts,replies:[]};
+    g.inbox.push(msg);
+    // Save to Firebase
+    const t2=S.trips.find(tr=>tr.groups.some(x=>x.id===g.id));
+    if(t2)fbSet('trips/'+t2.id+'/groups/'+g.id+'/inbox/'+msgId,{text,from:sender,ts}).catch(()=>{});
   });
-  // If guide is one of the recipients — push to guide inbox immediately
   if(S.gGrpId&&recs.find(g=>g.id===S.gGrpId)){
     pushToGuideInbox({id:msgId,text,from:sender,ts,replies:[]});
   }
@@ -1389,7 +1512,6 @@ function tripCard(trip,isEnded){
         ${!isEnded?`<button class="ibtn" onclick="openMsg('${trip.id}')" title="שלח הודעה"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>`:''}
       </div>
     </div>`;
-  // Pending
   if(isAdmin&&pending.length){
     h+=`<div class="pending-section">
       <div class="pending-header"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span class="pending-label">ממתינות (${pending.length})</span></div>`;
@@ -1404,7 +1526,6 @@ function tripCard(trip,isEnded){
     });
     h+=`</div>`;
   }
-  // Groups
   if(trip.groups.length){
     h+=`<div class="groups-wrap">`;
     trip.groups.forEach(g=>{
@@ -1438,7 +1559,6 @@ function tripCard(trip,isEnded){
   }else if(!isEnded&&!pending.length){
     h+=`<div style="font-size:.67rem;color:var(--td);padding:4px 2px">אין קבוצות עדיין.</div>`;
   }
-  // Fences
   if(!isEnded){
     h+=`<div class="trip-fences">
       <div class="tf-head">
@@ -1451,8 +1571,7 @@ function tripCard(trip,isEnded){
       h+=`<div class="fence-pill"><div class="fc-dot" style="background:${c}"></div><span>${f.name}</span><span style="font-size:.55rem;color:var(--td)">· ${l}</span>
         <div style="display:flex;gap:3px;margin-right:auto">
           <button class="sb b" style="width:20px;height:20px" onclick="panToFence('${f.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/></svg></button>
-          ${isAdmin?`<button class="sb ${isEditing?'g':'o'}" style="width:20px;height:20px" onclick="S.editingFenceId=S.editingFenceId==='${f.id}'?null:'${f.id}';toggleEditFence('${f.id}');renderSidebar()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${isEditing?'<polyline points="20 6 9 17 4 12"/>':'<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>'}</svg></button>
-          <button class="sb r" style="width:20px;height:20px" onclick="deleteFence('${trip.id}','${f.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg></button>`:''}
+          ${isAdmin?`<button class="sb r" style="width:20px;height:20px" onclick="deleteFence('${trip.id}','${f.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg></button>`:''}
         </div>
       </div>`;
     });}
@@ -1503,7 +1622,6 @@ function buildAlerts(){
   const col={sos:'currentColor',breach:'currentColor',ack:'var(--g)',msg:'var(--b)'};
   const isAdmin=S.role==='admin';
   const hasAlerts=S.alerts.length>0;
-
   let h=`<div class="sh" style="margin-bottom:6px">
     <span class="sh-lbl">התראות (${S.alerts.length})</span>
     ${hasAlerts?`<button onclick="deleteAllAlerts()"
@@ -1511,17 +1629,11 @@ function buildAlerts(){
       border:1px solid var(--rd2);background:var(--rd);color:var(--r);cursor:pointer">
       🗑 מחק הכל</button>`:''}
   </div>`;
-
   if(!hasAlerts)return h+`<div class="empty">אין התראות.</div>`;
-
   h+=S.alerts.slice().reverse().map((a,ri)=>{
     const idx=S.alerts.length-1-ri;
     const timeStr=new Date(a.ts).toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'});
-
-    // --- SOS: can jump to location on map ---
     const isSOS=a.type==='sos'&&a.grpId;
-
-    // --- JOIN REQUEST: show approve/reject if still pending ---
     const joinData=(()=>{
       if(!a.pendingId)return null;
       for(const trip of S.trips){
@@ -1530,14 +1642,9 @@ function buildAlerts(){
       }
       return null;
     })();
-
-    // --- MSG: show reply button (admin sends reply back as alert) ---
     const isMsg=a.type==='msg'&&!a.pendingId&&isAdmin;
-
-    // Build action row
     let actions='';
     if(isSOS&&isAdmin){
-      // Jump to SOS location on map
       actions+=`<button onclick="jumpToSOS('${a.grpId}')"
         style="display:flex;align-items:center;gap:4px;padding:4px 9px;border-radius:6px;
         border:1px solid var(--rd2);background:var(--rd);color:var(--r);
@@ -1569,7 +1676,6 @@ function buildAlerts(){
         ענה לקבוצה
       </button>`;
     }
-
     return `<div class="alert-item ${a.type}" id="ai-${idx}">
       <svg viewBox="0 0 24 24" fill="none" stroke="${col[a.type]||'currentColor'}" stroke-width="2"
         width="13" height="13" style="flex-shrink:0;margin-top:2px">${icons[a.type]||icons.sos}</svg>
@@ -1589,15 +1695,11 @@ function buildAlerts(){
   return h;
 }
 
-/* Reply to a message alert — opens dedicated reply modal */
 let _replyAlertIdx=null;
 let _replyGrpId=null;
 function openAlertReply(alertIdx){
-  const a=S.alerts[alertIdx];
-  if(!a)return;
+  const a=S.alerts[alertIdx];if(!a)return;
   _replyAlertIdx=alertIdx;
-  // Try to extract group from the alert message
-  // alerts from groups have grpId, or we target all
   const grp=a.grpId?findGrp(a.grpId):null;
   _replyGrpId=a.grpId||null;
   document.getElementById('mReplyTitle').textContent='↩ תגובה לקבוצה';
@@ -1609,18 +1711,16 @@ function openAlertReply(alertIdx){
 function sendAlertReply(){
   const text=document.getElementById('mReplyText').value.trim();
   if(!text){toast('הזן תגובה','#ff3355');return;}
-  // Send as a message — to specific group or all
   let recs=[];
-  if(_replyGrpId){
-    const g=findGrp(_replyGrpId);if(g)recs=[g];
-  }else{
-    recs=allGroups().filter(g=>g.status==='active');
-  }
+  if(_replyGrpId){const g=findGrp(_replyGrpId);if(g)recs=[g];}
+  else{recs=allGroups().filter(g=>g.status==='active');}
   const sender=S.role==='admin'?'מנהל':'רכז';
   const msgId=uid(),ts=Date.now();
   recs.forEach(g=>{
     if(!g.inbox)g.inbox=[];
     g.inbox.push({id:msgId,text,from:sender,ts,replies:[]});
+    const t2=S.trips.find(tr=>tr.groups.some(x=>x.id===g.id));
+    if(t2)fbSet('trips/'+t2.id+'/groups/'+g.id+'/inbox/'+msgId,{text,from:sender,ts}).catch(()=>{});
   });
   if(S.gGrpId&&recs.find(g=>g.id===S.gGrpId)){
     pushToGuideInbox({id:msgId,text,from:sender,ts,replies:[]});
@@ -1632,6 +1732,7 @@ function sendAlertReply(){
 
 function addAlert(a){
   S.alerts.push(a);
+  fbSaveAlert(a).catch(()=>{});
   if(!a.silent&&S.tab!=='alerts'){
     document.getElementById('alertDot')?.classList.add('show');
     document.getElementById('mobAlertDot')?.classList.add('show');
@@ -1639,10 +1740,13 @@ function addAlert(a){
   if(S.tab==='alerts')renderSidebar();
 }
 function deleteAlert(idx){
+  const a=S.alerts[idx];
+  if(a?.id)fbRemove('alerts/'+a.id).catch(()=>{});
   S.alerts.splice(idx,1);renderSidebar();
 }
 function deleteAllAlerts(){
   confirm2(`מחק את כל ${S.alerts.length} ההתראות?`,'לא ניתן לבטל.',()=>{
+    S.alerts.forEach(a=>{if(a.id)fbRemove('alerts/'+a.id).catch(()=>{});});
     S.alerts=[];renderSidebar();toast('כל ההתראות נמחקו','#607d96');
   });
 }
@@ -1669,10 +1773,9 @@ function stopSiren(){clearInterval(S.sirenInt);S.sirenInt=null;}
 function checkSiren(){if(allGroups().some(g=>g.isEmergency))startSiren();else stopSiren();}
 
 /* ═══════════════════════════════════════════════════
-   GUIDE — JOIN FLOW
+   GUIDE — JOIN FLOW (with Firebase)
 ═══════════════════════════════════════════════════ */
 function resetGuideScreen(){
-  // Just shows step 1; group may have pre-filled trip code already
   document.getElementById('joinStep1').style.display='flex';
   document.getElementById('joinStep2').style.display='none';
   document.getElementById('joinNewFields').style.display='none';
@@ -1688,31 +1791,62 @@ function resetGuideScreen(){
   }
   renderGBtns();renderGuide();initBattery();
 }
+
 function lookupTrip(){
   const code=document.getElementById('gTripCode').value.trim().toUpperCase();
   const errEl=document.getElementById('tripLookupErr');
   errEl.style.display='none';
   if(!code){errEl.textContent='יש להזין קוד טיול';errEl.style.display='block';return;}
-  const trip=S.trips.find(t=>t.code===code&&t.status==='active');
-  if(!trip){
+
+  // First try local state
+  let trip=S.trips.find(t=>t.code===code&&t.status==='active');
+  if(trip){_setLookupTrip(trip);return;}
+
+  // If not in local state, look in Firebase
+  if(fbReady()){
+    toast('🔍 מחפש טיול בענן...','#4d8fff');
+    fbGet('trips').then(snap=>{
+      const data=snap.val()||{};
+      const entry=Object.entries(data).find(([,t])=>t.code===code&&t.status==='active');
+      if(!entry){
+        errEl.textContent=`קוד "${code}" לא נמצא — בדוק עם המנהל`;errEl.style.display='block';
+        setTimeout(()=>{errEl.style.display='none';},4000);return;
+      }
+      const [id,t]=entry;
+      const fbTrip={
+        id,name:t.name,code:t.code,status:t.status,
+        groups:t.groups?Object.entries(t.groups).map(([gid,g])=>({id:gid,...g,inbox:g.inbox?Object.entries(g.inbox).map(([mid,m])=>({id:mid,...m})):[]})):[],
+        fences:t.fences?Object.entries(t.fences).map(([fid,f])=>({id:fid,...f})):[],
+        pending:t.pending?Object.entries(t.pending).map(([pid,p])=>({id:pid,...p})):[],
+      };
+      // Add to local trips if not there
+      if(!S.trips.find(x=>x.id===id))S.trips.push(fbTrip);
+      _setLookupTrip(fbTrip);
+    }).catch(()=>{
+      errEl.textContent='שגיאה בחיפוש. בדוק חיבור.';errEl.style.display='block';
+    });
+  }else{
     errEl.textContent=`קוד "${code}" לא נמצא — בדוק עם המנהל`;errEl.style.display='block';
-    setTimeout(()=>{errEl.style.display='none';},4000);return;
+    setTimeout(()=>{errEl.style.display='none';},4000);
   }
+}
+
+function _setLookupTrip(trip){
   S._lookupTrip=trip;
   document.getElementById('joinTripFound').textContent=`✅ נמצא: "${trip.name}"`;
   document.getElementById('joinStep1').style.display='none';
   document.getElementById('joinStep2').style.display='flex';
   document.getElementById('joinStep2').style.flexDirection='column';
   document.getElementById('joinStep2').style.gap='7px';
-  // Auto-fill from session if code matches
   const sess=loadSession();
-  if(sess&&sess.code===code){
+  if(sess&&sess.code===trip.code){
     const gn=document.getElementById('gGrpNameIn'),gi=document.getElementById('gGuideIn'),gc=document.getElementById('gPersonalCode');
     if(gn)gn.value=sess.grpName||'';
     if(gi)gi.value=sess.guideName||'';
     if(gc)gc.value=sess.pCode||'';
   }
 }
+
 function backToStep1(){
   document.getElementById('joinStep1').style.display='flex';
   document.getElementById('joinStep2').style.display='none';
@@ -1727,6 +1861,7 @@ function selectJoinMode(mode){
   document.getElementById('btnJoinNew').style.background=mode==='new'?'var(--gd2)':'';
   document.getElementById('btnJoinExist').style.background=mode==='exist'?'var(--gd2)':'';
 }
+
 function returnToGroup(){
   const errEl=document.getElementById('existErr');errEl.style.display='none';
   const code=document.getElementById('gTripCode').value.trim().toUpperCase();
@@ -1737,7 +1872,6 @@ function returnToGroup(){
   if(!trip){errEl.textContent='הטיול לא נמצא';errEl.style.display='block';return;}
   const grp=trip.groups.find(g=>g.name===grpName&&g.personalCode===pCode);
   if(!grp){errEl.textContent='שם קבוצה או קוד אישי שגוי';errEl.style.display='block';return;}
-  // Re-enter
   S.gTripId=trip.id;S.gGrpId=grp.id;S.gApproved=true;
   document.getElementById('joinStep2').style.display='none';
   document.getElementById('gTripName').textContent=trip.name;
@@ -1747,8 +1881,11 @@ function returnToGroup(){
   document.getElementById('leaveTripBtn').style.display='flex';
   document.getElementById('guideInbox').style.display='block';
   saveSession(code,grp.name,grp.guide,pCode);
+  // Listen for new inbox messages from Firebase
+  fbListenGroupInbox(trip.id,grp.id);
   renderGuide();renderInbox();toast(`✅ ברוך השב, ${grp.name}!`,'#00dfa8');
 }
+
 function submitJoinRequest(){
   const code=document.getElementById('gTripCode').value.trim().toUpperCase();
   const grpName=document.getElementById('gGrpNameIn').value.trim();
@@ -1761,10 +1898,15 @@ function submitJoinRequest(){
   if((trip.pending||[]).find(p=>p.name===grpName)||(trip.groups||[]).find(g=>g.name===grpName)){
     toast(`קבוצה "${grpName}" כבר קיימת — השתמש ב"קבוצה קיימת"`,'#ff3355');return;}
   saveSession(code,grpName,guide,pCode);
-  const pending={id:uid(),name:grpName,guide,personalCode:pCode||null,ts:Date.now()};
+  const pendingId=uid();
+  const pending={id:pendingId,name:grpName,guide,personalCode:pCode||null,ts:Date.now()};
   if(!trip.pending)trip.pending=[];
   trip.pending.push(pending);
-  S.gTripId=trip.id;S.gPendingId=pending.id;
+  S.gTripId=trip.id;S.gPendingId=pendingId;
+
+  // Save pending to Firebase
+  fbSet('trips/'+trip.id+'/pending/'+pendingId,{name:grpName,guide,personalCode:pCode||null,ts:pending.ts}).catch(()=>{});
+
   document.getElementById('joinStep2').style.display='none';
   document.getElementById('gTripName').textContent=trip.name;
   document.getElementById('gGrpName').textContent=`${grpName} · ${guide}`;
@@ -1772,22 +1914,49 @@ function submitJoinRequest(){
   document.getElementById('gJoinStatus').textContent='⏳ ממתין לאישור המנהל...';
   document.getElementById('gJoinStatus').style.display='block';
   document.getElementById('gBadge').textContent='ממתין';document.getElementById('gBadge').className='badge pend';
-  // Silent alert (visible only to admin in sidebar, no red dot)
-  addAlert({type:'msg',message:`⏳ בקשת הצטרפות: "${grpName}" (${guide}) → "${trip.name}"`,ts:Date.now(),pendingId:pending.id,silent:true});
+
+  addAlert({type:'msg',message:`⏳ בקשת הצטרפות: "${grpName}" (${guide}) → "${trip.name}"`,ts:Date.now(),pendingId,silent:true});
   renderSidebar();
-  // Poll for approval
+
+  // Poll Firebase for approval
   S.approvalPoll=setInterval(()=>{
-    const trip2=S.trips.find(t=>t.id===S.gTripId);
-    const approved=trip2?.groups.find(g=>g.pendingId===S.gPendingId);
-    if(approved){
-      clearInterval(S.approvalPoll);S.gGrpId=approved.id;S.gApproved=true;
-      document.getElementById('gJoinStatus').style.display='none';
-      document.getElementById('gBadge').textContent='מאושר';document.getElementById('gBadge').className='badge on';
-      document.getElementById('leaveTripBtn').style.display='flex';
-      document.getElementById('guideInbox').style.display='block';
-      renderGuide();renderInbox();toast('✅ אושרת! תוכל להתחיל שידור','#00dfa8');
-    }
-  },1000);
+    fbGet('trips/'+trip.id+'/groups').then(snap=>{
+      const data=snap.val()||{};
+      const approvedEntry=Object.entries(data).find(([,g])=>g.pendingId===pendingId);
+      if(approvedEntry){
+        clearInterval(S.approvalPoll);
+        const [gid,gdata]=approvedEntry;
+        S.gGrpId=gid;S.gApproved=true;
+        // Update local trip
+        const localTrip=S.trips.find(t=>t.id===trip.id);
+        if(localTrip&&!localTrip.groups.find(g=>g.id===gid)){
+          localTrip.groups.push({id:gid,...gdata,inbox:[]});
+        }
+        document.getElementById('gJoinStatus').style.display='none';
+        document.getElementById('gBadge').textContent='מאושר';document.getElementById('gBadge').className='badge on';
+        document.getElementById('leaveTripBtn').style.display='flex';
+        document.getElementById('guideInbox').style.display='block';
+        fbListenGroupInbox(trip.id,gid);
+        renderGuide();renderInbox();toast('✅ אושרת! תוכל להתחיל שידור','#00dfa8');
+      }
+    }).catch(()=>{});
+  },3000);
+}
+
+/* Listen for incoming messages for the guide's group */
+function fbListenGroupInbox(tripId,grpId){
+  fbListen('trips/'+tripId+'/groups/'+grpId+'/inbox', snap=>{
+    const data=snap.val()||{};
+    const msgs=Object.entries(data).map(([id,m])=>({id,...m}));
+    const knownIds=new Set(S.inbox.map(m=>m.id));
+    msgs.filter(m=>!knownIds.has(m.id)).forEach(m=>{
+      S.inbox.push({...m,read:false});
+      renderInbox();
+      const badge=document.getElementById('inboxBadge');
+      if(badge){badge.textContent=S.inbox.filter(x=>!x.read).length;badge.classList.add('show');}
+      toast(`📩 הודעה מ${m.from}: "${(m.text||'').slice(0,25)}${(m.text||'').length>25?'…':''}"`, '#4d8fff');
+    });
+  });
 }
 
 /* ═══════════════════════════════════════════════════
@@ -1840,6 +2009,9 @@ function stopTracking(){
   S.isTracking=false;S.burstMode=false;S.isEmergency=false;
   clearInterval(S.locationInt);stopUptime();
   const g=findGrp(S.gGrpId);if(g){g.lat=null;g.lng=null;}
+  if(S.gTripId&&S.gGrpId){
+    fbUpdate('trips/'+S.gTripId+'/groups/'+S.gGrpId,{lat:null,lng:null,status:'inactive'}).catch(()=>{});
+  }
   removeMarker(S.gGrpId);renderGuide();refreshPills();toast('שידור הופסק','#ff3355');
 }
 function scheduleLocation(key){
@@ -1849,22 +2021,22 @@ function scheduleLocation(key){
 }
 function toggleBurst(){S.burstMode=!S.burstMode;if(S.isTracking){const g=findGrp(S.gGrpId);scheduleLocation(g?.trackInterval||'live');}renderModeTog();}
 
-// Double-tap SOS guard
 function triggerSOS(){
   if(!S.isTracking){toast('התחל מעקב תחילה','#ffb020');return;}
   if(S.isEmergency)return;
   if(!_sosArmTimer){
-    // First tap — arm
     const btn=document.getElementById('sosBtnG');
     btn.className='sos-btn armed';
     btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>⚠️ לחץ שוב לאישור!';
     _sosArmTimer=setTimeout(()=>{_sosArmTimer=null;renderGuide();},3000);
     return;
   }
-  // Second tap — fire
   clearTimeout(_sosArmTimer);_sosArmTimer=null;
   S.isEmergency=true;S.burstMode=true;
   const g=findGrp(S.gGrpId);if(g)g.isEmergency=true;
+  if(S.gTripId&&S.gGrpId){
+    fbUpdate('trips/'+S.gTripId+'/groups/'+S.gGrpId,{isEmergency:true}).catch(()=>{});
+  }
   addAlert({type:'sos',message:`🚨 SOS מ"${g?.name||'—'}" — ${g?.guide||'—'}`,ts:Date.now(),grpId:S.gGrpId});
   startSiren();scheduleLocation('live');renderGuide();toast('🚨 SOS נשלח!','#ff3355');
 }
@@ -1872,37 +2044,51 @@ function triggerSOS(){
 function broadcastLocation(){
   if(!S.isTracking||!S.gGrpId)return;
   const g=findGrp(S.gGrpId);if(!g)return;
-  if(!g.lat){g.lat=31.2+Math.random()*1.8;g.lng=34.8+Math.random()*1.8;}
-  const d=S.burstMode?.00012:.0007;
-  g.lat+=(Math.random()-.5)*d;g.lng+=(Math.random()-.5)*d;
+
+  // Use real GPS if available
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(pos=>{
+      g.lat=pos.coords.latitude;
+      g.lng=pos.coords.longitude;
+      _sendLocation(g);
+    }, ()=>{
+      // Fallback to simulated location
+      if(!g.lat){g.lat=31.2+Math.random()*1.8;g.lng=34.8+Math.random()*1.8;}
+      const d=S.burstMode?.00012:.0007;
+      g.lat+=(Math.random()-.5)*d;g.lng+=(Math.random()-.5)*d;
+      _sendLocation(g);
+    },{timeout:3000,maximumAge:10000});
+  }else{
+    if(!g.lat){g.lat=31.2+Math.random()*1.8;g.lng=34.8+Math.random()*1.8;}
+    const d=S.burstMode?.00012:.0007;
+    g.lat+=(Math.random()-.5)*d;g.lng+=(Math.random()-.5)*d;
+    _sendLocation(g);
+  }
+}
+
+function _sendLocation(g){
   if(!navigator.onLine){
     S.offlineQueue.push({gid:S.gGrpId,lat:g.lat,lng:g.lng,ts:Date.now()});
     return;
   }
-  g.lastSeen=Date.now();g.battery=Math.max(1,(g.battery||85)-.03);
+  const ts=Date.now();
+  g.lastSeen=ts;g.battery=Math.max(1,(g.battery||85)-.03);
   g.signal=navigator.connection?.effectiveType?.toUpperCase()||'LTE';g.status='active';
   updateMarker(g);checkGeofences(g);refreshPills();
   if(S.tab==='trips')renderSidebar();
   const be=document.getElementById('gBatt');if(be)be.textContent=Math.round(g.battery||85)+'%';
   const se=document.getElementById('gSig');if(se)se.textContent=g.signal||'LTE';
-  // Poll for inbox messages from group
-  pollGroupInbox();
+  // Push to Firebase
+  if(S.gTripId){
+    fbUpdateGroupLocation(S.gTripId,S.gGrpId,g.lat,g.lng,ts,g.battery,g.signal,'active').catch(()=>{});
+  }
 }
 
 /* ═══════════════════════════════════════════════════
    GUIDE INBOX
 ═══════════════════════════════════════════════════ */
 function pollGroupInbox(){
-  if(!S.gGrpId||!S.gApproved)return;
-  const grp=findGrp(S.gGrpId);if(!grp?.inbox)return;
-  const known=new Set(S.inbox.map(m=>m.id));
-  grp.inbox.filter(m=>!known.has(m.id)).forEach(m=>{
-    S.inbox.push({...m,read:false});
-    renderInbox();
-    const badge=document.getElementById('inboxBadge');
-    if(badge){badge.textContent=S.inbox.filter(x=>!x.read).length;badge.classList.add('show');}
-    toast(`📩 הודעה מ${m.from}: "${m.text.slice(0,25)}${m.text.length>25?'…':''}"`, '#4d8fff');
-  });
+  // Now handled by real-time listener (fbListenGroupInbox)
 }
 function pushToGuideInbox(msg){
   S.inbox.push({...msg,read:false});
@@ -2048,7 +2234,6 @@ function toast(msg,color){
 /* ═══════════════════════════════════════════════════
    STARTUP
 ═══════════════════════════════════════════════════ */
-// Periodic sidebar refresh
 setInterval(()=>{
   if(document.getElementById('screen-admin')?.classList.contains('active')){
     if(S.tab==='trips')renderSidebar();
@@ -2056,9 +2241,7 @@ setInterval(()=>{
   }
 },8000);
 
-// Check for saved guide session on load
 checkSessionRestore();
-
 </script>
 </body>
 </html>
